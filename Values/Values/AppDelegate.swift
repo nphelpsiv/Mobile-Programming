@@ -11,12 +11,91 @@ import UIKit
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
+    //Declare variables
     var window: UIWindow?
+    let XLabel: UILabel = UILabel()
+    let YLabel: UILabel = UILabel()
+    let XSlider: UISlider = UISlider()
+    let XLabelVal: UILabel = UILabel()
+    let YSlider: UISlider = UISlider()
+    let YLabelVal: UILabel = UILabel()
+    let MultLabel: UILabel = UILabel()
+    let AddLabel: UILabel = UILabel()
 
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
+
+        window = UIWindow()
+        window?.rootViewController = ViewController()
+        window?.rootViewController?.view.backgroundColor = UIColor.lightGray
+        window?.makeKeyAndVisible()
+        
+        
+        XLabel.text = "X"
+        XLabel.frame = CGRect(x: 30.0, y: 152.0, width: 25.0, height: 25.0)
+        window?.rootViewController?.view.addSubview(XLabel)
+        
+        
+        YLabel.text = "Y"
+        YLabel.frame = CGRect(x: 30.0, y: 198.0, width: 25.0, height: 25.0)
+        window?.rootViewController?.view.addSubview(YLabel)
+        
+        
+        
+        XSlider.frame = CGRect(x: 50.0, y: 140.0, width: 188.0, height: 50.0)
+        window?.rootViewController?.view.addSubview(XSlider)
+        XSlider.addTarget(self, action: #selector(AppDelegate.xValueChanged), for: .valueChanged)
+        
+        
+        XLabelVal.text = "0.0"
+        XLabelVal.frame = CGRect(x: 250.0, y: 152.0, width: 75.0, height: 25.0)
+        window?.rootViewController?.view.addSubview(XLabelVal)
+        
+        
+        YSlider.frame = CGRect(x: 50.0, y: 190.0, width: 188.0, height: 50.0)
+        window?.rootViewController?.view.addSubview(YSlider)
+        YSlider.addTarget(self, action: #selector(AppDelegate.yValueChanged), for: .valueChanged)
+        
+        YLabelVal.text = "0.0"
+        YLabelVal.frame = CGRect(x: 250.0, y: 198.0, width: 75.0, height: 25.0)
+        window?.rootViewController?.view.addSubview(YLabelVal)
+        
+        
+        MultLabel.text = "X*Y: 0.0"
+        MultLabel.frame = CGRect(x: 120.0, y: 240.0, width: 200.0, height: 75.0)
+        window?.rootViewController?.view.addSubview(MultLabel)
+        
+        
+        AddLabel.text = "X+Y: 0.0"
+        AddLabel.frame = CGRect(x: 120.0, y: 265.0, width: 200.0, height: 75.0)
+        window?.rootViewController?.view.addSubview(AddLabel)
+        
+        
         return true
+    }
+    //when X slider value has changed this visually updates its value and the add and multiply labels
+    func xValueChanged(){
+        var multVal: Float = 0.0
+        var addVal: Float = 0.0
+        
+        multVal = XSlider.value * YSlider.value
+        addVal = XSlider.value + YSlider.value
+    
+        XLabelVal.text = String(format: "%.3f", XSlider.value)
+        MultLabel.text = "X*Y: " +  String(format: "%.3f", multVal)
+        AddLabel.text = "X+Y: " + String(format: "%.3f", addVal)
+    }
+    //when Y slider value has changed this visually updates its value and the add and multiply labels
+    func yValueChanged(){
+        var multVal: Float = 0.0
+        var addVal: Float = 0.0
+        
+        multVal = XSlider.value * YSlider.value
+        addVal = XSlider.value + YSlider.value
+        
+        YLabelVal.text = String(format: "%.3f", YSlider.value)
+        MultLabel.text = "X*Y: " +  String(format: "%.3f", multVal)
+        AddLabel.text = "X+Y: " + String(format: "%.3f", addVal)
     }
 
     func applicationWillResignActive(_ application: UIApplication) {
