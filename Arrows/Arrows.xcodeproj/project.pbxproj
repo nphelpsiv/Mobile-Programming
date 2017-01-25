@@ -11,6 +11,8 @@
 		3D2FE1D51E36C5AE0055C049 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D2FE1D41E36C5AE0055C049 /* ViewController.swift */; };
 		3D2FE1DA1E36C5AE0055C049 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3D2FE1D91E36C5AE0055C049 /* Assets.xcassets */; };
 		3D2FE1E51E36C5D70055C049 /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D2FE1E41E36C5D70055C049 /* File.swift */; };
+		3D7E0CA51E3964CE004625EB /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3D7E0CA41E3964CE004625EB /* Default-568h@2x.png */; };
+		3D7E0CA71E396505004625EB /* KnobView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D7E0CA61E396505004625EB /* KnobView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -20,6 +22,8 @@
 		3D2FE1D91E36C5AE0055C049 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		3D2FE1DE1E36C5AE0055C049 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3D2FE1E41E36C5D70055C049 /* File.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = File.swift; sourceTree = "<group>"; };
+		3D7E0CA41E3964CE004625EB /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
+		3D7E0CA61E396505004625EB /* KnobView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KnobView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -36,6 +40,7 @@
 		3D2FE1C61E36C5AD0055C049 = {
 			isa = PBXGroup;
 			children = (
+				3D7E0CA41E3964CE004625EB /* Default-568h@2x.png */,
 				3D2FE1D11E36C5AE0055C049 /* Arrows */,
 				3D2FE1D01E36C5AE0055C049 /* Products */,
 			);
@@ -57,6 +62,7 @@
 				3D2FE1D91E36C5AE0055C049 /* Assets.xcassets */,
 				3D2FE1DE1E36C5AE0055C049 /* Info.plist */,
 				3D2FE1E41E36C5D70055C049 /* File.swift */,
+				3D7E0CA61E396505004625EB /* KnobView.swift */,
 			);
 			path = Arrows;
 			sourceTree = "<group>";
@@ -121,6 +127,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3D2FE1DA1E36C5AE0055C049 /* Assets.xcassets in Resources */,
+				3D7E0CA51E3964CE004625EB /* Default-568h@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -133,6 +140,7 @@
 			files = (
 				3D2FE1D51E36C5AE0055C049 /* ViewController.swift in Sources */,
 				3D2FE1E51E36C5D70055C049 /* File.swift in Sources */,
+				3D7E0CA71E396505004625EB /* KnobView.swift in Sources */,
 				3D2FE1D31E36C5AE0055C049 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -276,6 +284,7 @@
 				3D2FE1E31E36C5AE0055C049 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
