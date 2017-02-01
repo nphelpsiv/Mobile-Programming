@@ -12,8 +12,8 @@ import UIKit
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-    private var _knobView: KnobView? = nil
-
+    private var _colorChooser: ColorChooserView? = nil
+    
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         
@@ -26,18 +26,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         //vectorView.backgroundColor = UIColor.lightGray
         //vectorView.vectors = [Vector(px: 100.0, py: 200.0), Vector(px: 150.0, py: 160.0)]
         //window?.rootViewController?.view.addSubview(VectorView())
-        _knobView = KnobView()
-        _knobView?.frame = CGRect(x: 10.0, y: 20.0, width: 300.0 , height: 400.0)
-        _knobView?.backgroundColor = UIColor.green
+        _colorChooser = ColorChooserView(frame: UIScreen.main.bounds)
+        window?.rootViewController?.view.addSubview(_colorChooser!)
         
-        _knobView?.addTarget(self, action: #selector(knobChanged), for: .valueChanged)
-        
-        window?.rootViewController?.view.addSubview(_knobView!)
+        _colorChooser?.knobViewGreen?.addTarget(self, action: #selector(knobChanged), for: .valueChanged)
+        _colorChooser?.knobViewBlue?.addTarget(self, action: #selector(knobChanged), for: .valueChanged)
+        _colorChooser?.knobViewRed?.addTarget(self, action: #selector(knobChanged), for: .valueChanged)
         
         return true
     }
     func knobChanged(){
-        NSLog("Changed! to : \(_knobView!.angle)")
+//        NSLog("Changed! to : \(_knobViewBlue!.angle)")
     }
 
     func applicationWillResignActive(_ application: UIApplication) {
