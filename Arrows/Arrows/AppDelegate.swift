@@ -27,6 +27,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         //vectorView.vectors = [Vector(px: 100.0, py: 200.0), Vector(px: 150.0, py: 160.0)]
         //window?.rootViewController?.view.addSubview(VectorView())
         _colorChooser = ColorChooserView(frame: UIScreen.main.bounds)
+        _colorChooser?.autoresizingMask = [UIViewAutoresizing.flexibleWidth, UIViewAutoresizing.flexibleHeight]
         window?.rootViewController?.view.addSubview(_colorChooser!)
         
         _colorChooser?.knobViewGreen?.addTarget(self, action: #selector(knobChanged), for: .valueChanged)
