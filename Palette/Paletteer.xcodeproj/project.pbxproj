@@ -11,6 +11,7 @@
 		3DAE73271E4BD73100B61922 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DAE73261E4BD73100B61922 /* ViewController.swift */; };
 		3DAE732C1E4BD73100B61922 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3DAE732B1E4BD73100B61922 /* Assets.xcassets */; };
 		3DAE73371E4BD86500B61922 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3DAE73361E4BD86500B61922 /* Default-568h@2x.png */; };
+		3DD20C851E5274B60000C367 /* PaletteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DD20C841E5274B60000C367 /* PaletteViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -20,6 +21,7 @@
 		3DAE732B1E4BD73100B61922 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		3DAE73301E4BD73100B61922 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3DAE73361E4BD86500B61922 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
+		3DD20C841E5274B60000C367 /* PaletteViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaletteViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -57,6 +59,7 @@
 				3DAE73261E4BD73100B61922 /* ViewController.swift */,
 				3DAE732B1E4BD73100B61922 /* Assets.xcassets */,
 				3DAE73301E4BD73100B61922 /* Info.plist */,
+				3DD20C841E5274B60000C367 /* PaletteViewController.swift */,
 			);
 			path = Paletteer;
 			sourceTree = "<group>";
@@ -133,6 +136,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3DAE73271E4BD73100B61922 /* ViewController.swift in Sources */,
+				3DD20C851E5274B60000C367 /* PaletteViewController.swift in Sources */,
 				3DAE73251E4BD73100B61922 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -276,6 +280,7 @@
 				3DAE73351E4BD73100B61922 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
