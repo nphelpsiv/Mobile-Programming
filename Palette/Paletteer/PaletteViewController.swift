@@ -8,7 +8,7 @@
 
 import UIKit
 
-class PaletteViewController: UIViewController, UITableViewDataSource
+class PaletteViewController: UIViewController, UITableViewDataSource, UITableViewDelegate
 {
     override func loadView() {
         //TODO: set the view property
@@ -18,7 +18,10 @@ class PaletteViewController: UIViewController, UITableViewDataSource
     }
     
     override func viewDidLoad() {
+        title = "Paletteer"
         //TODO: Customize view {and subviews)
+        contentVIew.dataSource = self
+        contentVIew.delegate = self
         //NOTE: view does NOT have a frame yet!!!!
         
         //colorTableView.autoresizingMask = [UIViewAutoresizing.flexibleWidth, UIViewAutoresizing.flexibleHeight]
@@ -46,8 +49,16 @@ class PaletteViewController: UIViewController, UITableViewDataSource
         cell.backgroundColor = colorForIndex(index: indexPath.row)
         
         // cell.contentView.addSubview(someView)
+        //navigationController?.pushViewController(colorViewDetailController, animated: true)
         
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let color: UIColor = colorForIndex(index: indexPath.row)
+        let colorDetailViewController: ColorViewController = ColorViewController()
+        colorDetailViewController.color = color
+        navigationController?.pushViewController(colorDetailViewController, animated: true)
     }
     func colorForIndex(index: Int) -> UIColor
     {
