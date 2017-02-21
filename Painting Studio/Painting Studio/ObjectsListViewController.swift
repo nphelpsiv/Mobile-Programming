@@ -8,15 +8,20 @@
 
 import UIKit
 
-class ObjectsListViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate
+//THE CONTROLLER!!
+class ObjectsListViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, PaintingDataModelDelegate
 {
+    //THE VIEW!!!
     private var listView: UICollectionView{
         return view as! UICollectionView
     }
     
     var numOfCells = 25;
     //datamodel
-    let objects: [String] = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "REALLY LONG EXAMPLE OKAY!"]
+    
+    //THE MODEL!!!
+    private var paintingDataModel: PaintingDataModel = PaintingDataModel()
+    
     override func loadView() {
         let collectionLayout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
         
@@ -26,20 +31,26 @@ class ObjectsListViewController: UIViewController, UICollectionViewDataSource, U
     
     override func viewDidLoad() {
         
+        paintingDataModel.delegate = self
         
         listView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: NSStringFromClass(UICollectionViewCell.self))
         
         listView.dataSource = self
         listView.delegate = self
     }
+    
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return objects.count
+        return paintingDataModel.numPaintings
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-        let object: String = objects[indexPath.item]
+        //Get data element from indexPath
+        let painting: Painting = paintingDataModel.paintingWithIndex(paintingIndex: indexPath.item)
         
+        
+        //Convert to a cell
         let cell: UICollectionViewCell = collectionView.dequeueReusableCell(withReuseIdentifier: NSStringFromClass(UICollectionViewCell.self), for: indexPath)
         cell.backgroundColor = UIColor.lightGray
         
@@ -51,23 +62,54 @@ class ObjectsListViewController: UIViewController, UICollectionViewDataSource, U
         //adddrawing view here!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         label.frame = CGRect(x: 0.0,y: 0.0,width: 60.0,height: 30.0)
         label.textColor = UIColor.white
-        label.text = object
+        //TODO: create an image view, or instantiation view of painting view and load it with info from painting to represent painting. 
+        label.text = "\(painting.strokes.count)"
         label.adjustsFontSizeToFitWidth = true;
         cell.contentView.addSubview(label)
         
         return cell
     }
+    
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
-        let object: String = objects[indexPath.item]
         
+        //Get Data element from index
+        //let painting: Painting = paintingDataModel.paintingWithIndex(paintingIndex: indexPath.item)
+        
+        
+        let paintingIndex: Int = indexPath.item
+    
+        
+        //Build a view controller and give it the data needs
         let objectViewController: ObjectViewController = ObjectViewController()
         
-        objectViewController.title = object
+        //objectViewController.title = "\(painting.strokes.count)"
         
-        objectViewController.labelView.text = object
+        objectViewController.paintingDataModel = paintingDataModel
+        objectViewController.paintingIndex = paintingIndex
+        
+        //Where they can pull up the painting
+        
+        
+        
+        //objectViewController.labelView.text = "The painting has \(painting.strokes.count) strokes"
+        
+        //painting(painting, toObjectView: objectViewController.paintView)
+        
         navigationController?.pushViewController(objectViewController, animated: true)
         
+    }
+    
+//    private func paintingFromObjectView(paintView: ObjectView) -> Painting{
+//        
+//    }
+//    private func painting(painting: Painting, toObjectView paintView: ObjectView)
+//    {
+//        
+//    }
+     func collection(collection: PaintingDataModel, strokeAddedToPainting paintingIndex: Int)
+     {
+        listView.reloadData()
     }
 
 }
