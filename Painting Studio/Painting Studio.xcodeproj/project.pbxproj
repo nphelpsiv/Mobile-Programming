@@ -65,6 +65,7 @@
 		3D31CBAC1E57AF4A008E6BE4 /* Painting Studio */ = {
 			isa = PBXGroup;
 			children = (
+				3DBC73151E5E23AE003FD68B /* BrushChooser */,
 				3D426BDF1E5CDBF400A8B644 /* PaintingDetail */,
 				3D426BE01E5CDBFF00A8B644 /* DataModel */,
 				3D426BDE1E5CDBE300A8B644 /* PaintingList */,
@@ -101,6 +102,13 @@
 			);
 			name = DataModel;
 			path = ..;
+			sourceTree = "<group>";
+		};
+		3DBC73151E5E23AE003FD68B /* BrushChooser */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = BrushChooser;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
