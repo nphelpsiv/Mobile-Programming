@@ -15,6 +15,7 @@
 		3D426BDD1E5CDBBF00A8B644 /* PaintingsDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D426BDC1E5CDBBF00A8B644 /* PaintingsDataModel.swift */; };
 		3D426BE21E5CE03700A8B644 /* Painting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D426BE11E5CE03700A8B644 /* Painting.swift */; };
 		3D426BE41E5CF8DA00A8B644 /* PaintingFrameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D426BE31E5CF8DA00A8B644 /* PaintingFrameView.swift */; };
+		3DA50F0A1E5D234B00428843 /* DrawingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DA50F091E5D234B00428843 /* DrawingView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,6 +29,7 @@
 		3D426BDC1E5CDBBF00A8B644 /* PaintingsDataModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PaintingsDataModel.swift; path = "Painting Studio/PaintingsDataModel.swift"; sourceTree = "<group>"; };
 		3D426BE11E5CE03700A8B644 /* Painting.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Painting.swift; sourceTree = "<group>"; };
 		3D426BE31E5CF8DA00A8B644 /* PaintingFrameView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaintingFrameView.swift; sourceTree = "<group>"; };
+		3DA50F091E5D234B00428843 /* DrawingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DrawingView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -83,8 +85,9 @@
 		3D426BDF1E5CDBF400A8B644 /* PaintingDetail */ = {
 			isa = PBXGroup;
 			children = (
-				3D31CBC31E57CB2D008E6BE4 /* ObjectViewController.swift */,
 				3D426BE31E5CF8DA00A8B644 /* PaintingFrameView.swift */,
+				3D31CBC31E57CB2D008E6BE4 /* ObjectViewController.swift */,
+				3DA50F091E5D234B00428843 /* DrawingView.swift */,
 			);
 			name = PaintingDetail;
 			path = ..;
@@ -93,8 +96,8 @@
 		3D426BE01E5CDBFF00A8B644 /* DataModel */ = {
 			isa = PBXGroup;
 			children = (
-				3D426BDC1E5CDBBF00A8B644 /* PaintingsDataModel.swift */,
 				3D426BE11E5CE03700A8B644 /* Painting.swift */,
+				3D426BDC1E5CDBBF00A8B644 /* PaintingsDataModel.swift */,
 			);
 			name = DataModel;
 			path = ..;
@@ -173,6 +176,7 @@
 			files = (
 				3D31CBAE1E57AF4A008E6BE4 /* AppDelegate.swift in Sources */,
 				3D31CBC21E57C63D008E6BE4 /* ObjectsListViewController.swift in Sources */,
+				3DA50F0A1E5D234B00428843 /* DrawingView.swift in Sources */,
 				3D426BE41E5CF8DA00A8B644 /* PaintingFrameView.swift in Sources */,
 				3D426BE21E5CE03700A8B644 /* Painting.swift in Sources */,
 				3D31CBC41E57CB2D008E6BE4 /* ObjectViewController.swift in Sources */,

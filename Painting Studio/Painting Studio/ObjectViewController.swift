@@ -11,6 +11,10 @@ import UIKit
 class ObjectViewController: UIViewController{
     private var _paintingDataModel: PaintingDataModel?
     private var _paintingIndex: Int? = nil
+    public var wasDeleted: Bool = false;
+    public var hitBackButton: Bool = false;
+    private var context: CGContext? = nil
+    
     
     var paintingDataModel: PaintingDataModel?
     {
@@ -30,36 +34,70 @@ class ObjectViewController: UIViewController{
         }
     }
     
-    var labelView: UILabel{
-        return view as! UILabel
-    }
+//    var labelView: UILabel{
+//        return view as! UILabel
+//    }
     
+    var theView: DrawingView{
+        return view as! DrawingView
+    }
     var painting: Painting? {
         didSet{
             //TODO: load painting into view, what goes in line 65 in objects list view
+            //view = painting;
+            
         }
     }
     
     override func loadView() {
         //not label in future, should be pic view
-        view = UILabel()
+        //view = UILabel()
+        view = DrawingView();
     }
     override func viewDidLoad() {
         super.viewDidLoad()
-        labelView.backgroundColor = UIColor.white
-        labelView.textAlignment = .center
-        labelView.numberOfLines = -1
+        theView.backgroundColor = UIColor.red
+        
+//        labelView.textAlignment = .center
+//        labelView.numberOfLines = -1
+        
+        //UIGraphicsBeginImageContext(view.frame.size)
+        
+        
+        
+        let rightButtonItem = UIBarButtonItem.init(title: "DELETE", style: .done, target: self, action: #selector(deletePainting))
+        self.navigationItem.rightBarButtonItem = rightButtonItem
+
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        
         if(_paintingDataModel == nil || _paintingIndex == nil){
             return
         }
         
         //objectViewController.painting = painting;
         let painting: Painting = _paintingDataModel!.paintingWithIndex(paintingIndex: paintingIndex!)
-        labelView.text = "This is a paint with \(painting.strokes.count) strokes"
+        theView.painting = painting
+        //NSLog("Painting! " + "\(painting)")
+        
+        //NSLog("First Point: " + "\(painting.points.first)")
+        //labelView.text = "This is a paint with \(painting.strokes.count) strokes"
     }
+    func deletePainting()
+    {
+        paintingDataModel?.removePaintingAtIndex(paintIndex: self._paintingIndex!)
+        wasDeleted = true;
+        
+    }
+    override func willMove(toParentViewController parent: UIViewController?) {
+        super.willMove(toParentViewController: parent)
+        if parent == nil{
+            hitBackButton = true;
+            parent?.setNeedsFocusUpdate()
+        }
+    }
+
 //    private func strokeToPolyLine(stroke: Stroke) -> PolyLine
 //    {
 //        //stroke has color, line cap etc, comes from brush chooser
@@ -77,4 +115,5 @@ class ObjectViewController: UIViewController{
 //    {
 //        
 //    }
+
 }

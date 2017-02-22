@@ -6,28 +6,23 @@
 //  Copyright © 2017 u0669056. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
-class Painting
+class Painting: UIView
 {
-    var strokes: [Stroke] = []
+    var points: [CGPoint] = []
     var aspectRatio: Double = 1.0
+    var lastPoint = CGPoint.zero
+    var opacity: CGFloat = 1.0
+    var moved  = false;
+    var lineWidth = 5.0
+    var lineJoin: CGLineJoin = .bevel
+    var lineCap: CGLineCap = .square
+    var lineColor: CGColor = UIColor.white.cgColor
     
+    func addPoint(point: CGPoint)
+    {
+        points.append(point)
+    }
 }
-struct Stroke{
-    var color: Color
-    var lineWidth: Double
-    var points: [Point]
-}
-struct Color
-{
-    var r: Double
-    var g: Double
-    var b: Double
-}
-struct Point
-{
-    var x: Double
-    var y: Double
-    
-}
+

@@ -22,6 +22,8 @@ class ObjectsListViewController: UIViewController, UICollectionViewDataSource, U
     //THE MODEL!!!
     private var paintingDataModel: PaintingDataModel = PaintingDataModel()
     
+    
+    
     override func loadView() {
         let collectionLayout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
         
@@ -31,12 +33,22 @@ class ObjectsListViewController: UIViewController, UICollectionViewDataSource, U
     
     override func viewDidLoad() {
         
+
         paintingDataModel.delegate = self
         
         listView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: NSStringFromClass(UICollectionViewCell.self))
         
+        let rightButtonItem = UIBarButtonItem.init(title: "ADD", style: .done, target: self, action: #selector(addNewPainting))
+        
+        
+        self.navigationItem.rightBarButtonItem = rightButtonItem
+    
+        
         listView.dataSource = self
         listView.delegate = self
+    }
+    override func viewWillAppear(_ animated: Bool) {
+        listView.reloadData();
     }
     
     
@@ -63,7 +75,7 @@ class ObjectsListViewController: UIViewController, UICollectionViewDataSource, U
         label.frame = CGRect(x: 0.0,y: 0.0,width: 60.0,height: 30.0)
         label.textColor = UIColor.white
         //TODO: create an image view, or instantiation view of painting view and load it with info from painting to represent painting. 
-        label.text = "\(painting.strokes.count)"
+//        label.text = "\(painting.strokes.count)"
         label.adjustsFontSizeToFitWidth = true;
         cell.contentView.addSubview(label)
         
@@ -97,6 +109,7 @@ class ObjectsListViewController: UIViewController, UICollectionViewDataSource, U
         //painting(painting, toObjectView: objectViewController.paintView)
         
         navigationController?.pushViewController(objectViewController, animated: true)
+        //self.navigationItem.rightBarButtonItem = rightButtonItem
         
     }
     
@@ -107,9 +120,16 @@ class ObjectsListViewController: UIViewController, UICollectionViewDataSource, U
 //    {
 //        
 //    }
-     func collection(collection: PaintingDataModel, strokeAddedToPainting paintingIndex: Int)
-     {
+    func collection(collection: PaintingDataModel, strokeAddedToPainting paintingIndex: Int)
+    {
         listView.reloadData()
     }
+    func addNewPainting()
+    {
+        NSLog("Button HIT!")
+        paintingDataModel.addNewPainting(painting: Painting())
+        listView.reloadData()
+    }
+    
 
 }
