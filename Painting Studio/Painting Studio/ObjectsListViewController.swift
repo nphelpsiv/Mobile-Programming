@@ -16,6 +16,7 @@ class ObjectsListViewController: UIViewController, UICollectionViewDataSource, U
         return view as! UICollectionView
     }
     
+    var theView: DrawingView = DrawingView()
     var numOfCells = 25;
     //datamodel
     
@@ -28,6 +29,7 @@ class ObjectsListViewController: UIViewController, UICollectionViewDataSource, U
         let collectionLayout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
         
         view = UICollectionView(frame: CGRect.zero, collectionViewLayout: collectionLayout)
+        view.backgroundColor = UIColor.darkGray
         
     }
     
@@ -38,7 +40,7 @@ class ObjectsListViewController: UIViewController, UICollectionViewDataSource, U
         
         listView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: NSStringFromClass(UICollectionViewCell.self))
         
-        let rightButtonItem = UIBarButtonItem.init(title: "ADD", style: .done, target: self, action: #selector(addNewPainting))
+        let rightButtonItem = UIBarButtonItem.init(barButtonSystemItem: .add, target: self, action: #selector(addNewPainting))
         
         
         self.navigationItem.rightBarButtonItem = rightButtonItem
@@ -49,6 +51,7 @@ class ObjectsListViewController: UIViewController, UICollectionViewDataSource, U
     }
     override func viewWillAppear(_ animated: Bool) {
         listView.reloadData();
+        
     }
     
     
@@ -61,10 +64,11 @@ class ObjectsListViewController: UIViewController, UICollectionViewDataSource, U
         //Get data element from indexPath
         let painting: Painting = paintingDataModel.paintingWithIndex(paintingIndex: indexPath.item)
         
+        theView.painting = painting
         
         //Convert to a cell
         let cell: UICollectionViewCell = collectionView.dequeueReusableCell(withReuseIdentifier: NSStringFromClass(UICollectionViewCell.self), for: indexPath)
-        //cell.backgroundColor = UIColor.lightGray
+        cell.backgroundColor = UIColor.lightGray
         
         //set cell sizes and row and columns, subclass UICollectionview cell in another class and do layout there!!
         
@@ -77,8 +81,7 @@ class ObjectsListViewController: UIViewController, UICollectionViewDataSource, U
 //        //TODO: create an image view, or instantiation view of painting view and load it with info from painting to represent painting. 
 //        label.text = "\(painting.strokes.count)"
 //        label.adjustsFontSizeToFitWidth = true;
-        cell.contentView.addSubview(painting)
-        
+        cell.contentView.addSubview(theView.painting)
         return cell
     }
     

@@ -14,7 +14,8 @@ class ObjectViewController: UIViewController{
     public var wasDeleted: Bool = false;
     public var hitBackButton: Bool = false;
     private var context: CGContext? = nil
-    
+    var undoArr = [Lines]()
+    var buttons = [UIBarButtonItem]()
     
     var paintingDataModel: PaintingDataModel?
     {
@@ -56,7 +57,7 @@ class ObjectViewController: UIViewController{
     }
     override func viewDidLoad() {
         super.viewDidLoad()
-        theView.backgroundColor = UIColor.red
+        theView.backgroundColor = UIColor.lightGray
         
 //        labelView.textAlignment = .center
 //        labelView.numberOfLines = -1
@@ -65,8 +66,17 @@ class ObjectViewController: UIViewController{
         
         
         
-        let rightButtonItem = UIBarButtonItem.init(title: "DELETE", style: .done, target: self, action: #selector(deletePainting))
-        self.navigationItem.rightBarButtonItem = rightButtonItem
+        let rightButtonItem = UIBarButtonItem.init(barButtonSystemItem: .trash ,target: self, action: #selector(deletePainting))
+        //self.navigationItem.rightBarButtonItem = rightButtonItem
+        buttons.append(rightButtonItem)
+        
+        let redoButtonItem = UIBarButtonItem.init(barButtonSystemItem: .redo ,target: self, action: #selector(redo))
+        self.navigationItem.rightBarButtonItem = redoButtonItem
+        buttons.append(redoButtonItem)
+        let undoButtonItem = UIBarButtonItem.init(barButtonSystemItem: .undo ,target: self, action: #selector(undo))
+        buttons.append(undoButtonItem)
+        
+        self.navigationItem.setRightBarButtonItems(buttons, animated: true)
 
     }
     override func viewWillAppear(_ animated: Bool) {
@@ -87,8 +97,31 @@ class ObjectViewController: UIViewController{
     func deletePainting()
     {
         paintingDataModel?.removePaintingAtIndex(paintIndex: self._paintingIndex!)
+        _ = navigationController?.popViewController(animated: true)
         wasDeleted = true;
         
+    }
+    func undo()
+    {
+        NSLog("UNDO!")
+        let painting: Painting = _paintingDataModel!.paintingWithIndex(paintingIndex: paintingIndex!)
+        if(!painting.lines.isEmpty)
+        {
+            var undoLine = painting.lines.popLast()
+            undoArr.append(undoLine!);
+            view.setNeedsDisplay()
+        }
+        
+    }
+    func redo()
+    {
+        NSLog("Redo!!")
+        let painting: Painting = _paintingDataModel!.paintingWithIndex(paintingIndex: paintingIndex!)
+        if(!undoArr.isEmpty)
+        {
+            painting.addLine(line: undoArr.popLast()!)
+            view.setNeedsDisplay()
+        }
     }
     override func willMove(toParentViewController parent: UIViewController?) {
         super.willMove(toParentViewController: parent)
