@@ -8,7 +8,7 @@
 
 import UIKit
 
-class DrawingView: UIControl
+class DrawingView: UIView
 {
     private var context: CGContext? = nil
     //private var lineWidth2: CGFloat = 0.5
@@ -19,11 +19,24 @@ class DrawingView: UIControl
     private var _painting: Painting = Painting()
     //var _lines: Lines = Lines()
     
+    private var lineWidth: Double = 0.5
+    private var lineJoin: CGLineJoin = .bevel
+    private var lineCap: CGLineCap = .square
+    private var lineColor: UIColor = UIColor.white
+    private var points = [CGPoint]()
+
+    
     private var lastSpot: CGPoint = CGPoint.zero
     private var touchesEnded: Bool = false;
     private var touchesBegan: Bool = false;
     
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+    }
     
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     override func draw(_ rect: CGRect) {
         
         context = UIGraphicsGetCurrentContext()!
@@ -40,29 +53,36 @@ class DrawingView: UIControl
                 }
                 else{
                     context?.addLine(to: point)
-                    context?.setFillColor(painting.lineColor)
-                    context?.setLineWidth(CGFloat(painting.lineWidth))
-                    context?.setLineCap(painting.lineCap)
-                    context?.setLineJoin(painting.lineJoin)
-                    context?.setStrokeColor(painting.lineColor)
+                    
                 }
                 
             }
+            //NSLog("Color in Context: " + "\(painting.color)")
+            context?.setLineWidth(CGFloat(line.width))
+            context?.setLineCap(line.cap)
+            context?.setLineJoin(line.join)
+            context?.setStrokeColor(line.color.cgColor)
+            context?.drawPath(using: .stroke)
         }
         
         
         
-        context?.drawPath(using: .stroke)
+        
         //setNeedsDisplay()
         
     }
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        painting.addLine(line: Lines())
+        let line: Line = Line()
+        line.color = lineColor
+        line.cap = lineCap
+        line.join = lineJoin
+        line.width = lineWidth
+        painting.addLine(line: line)
     }
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
         let touch: UITouch = touches.first!
         var touchPoint: CGPoint = touch.location(in: self)
-        NSLog("x: \(touchPoint.x) y: \(touchPoint.y)")
+        //NSLog("x: \(touchPoint.x) y: \(touchPoint.y)")
         
         //painting.lines.addPoint(point: touchPoint)
         painting.lines.last?.addPoint(point: touchPoint)
@@ -79,7 +99,7 @@ class DrawingView: UIControl
         touchesEnded = true;
         touchesBegan = false;
         
-        setNeedsDisplay()
+        //setNeedsDisplay()
     }
     var painting: Painting {
         get{
@@ -87,17 +107,51 @@ class DrawingView: UIControl
         }
         set{
             _painting = newValue
-            setNeedsDisplay()
+            //setNeedsDisplay()
         }
     }
     var drawContext: CGContext? {return context}
+    
+    var color: UIColor
+        {
+        get{
+            return lineColor
+        }
+        set{
+            lineColor = newValue
+            NSLog("NEW COLOR: " + "\(lineColor)")
+        }
+    }
+    var cap: CGLineCap
+        {
+        get{
+            return lineCap
+        }
+        set{
+            lineCap = newValue
+            //NSLog("NEW COLOR: " + "\(lineColor)")
+        }
+    }
+    var width: Double
+        {
+        get{
+            return lineWidth
+        }
+        set{
+            lineWidth = newValue
+            //NSLog("NEW COLOR: " + "\(lineColor)")
+        }
+    }
+    var join: CGLineJoin
+        {
+        get{
+            return lineJoin
+        }
+        set{
+            lineJoin = newValue
+            NSLog("NEW COLOR: " + "\(lineColor)")
+        }
+    }
+
 
 }
-//class Lines
-//{
-//    var points: [CGPoint] = []
-//    func addPoint(point: CGPoint)
-//    {
-//        points.append(point)
-//    }
-//}

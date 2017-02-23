@@ -16,7 +16,6 @@ class ObjectsListViewController: UIViewController, UICollectionViewDataSource, U
         return view as! UICollectionView
     }
     
-    var theView: DrawingView = DrawingView()
     var numOfCells = 25;
     //datamodel
     
@@ -64,24 +63,40 @@ class ObjectsListViewController: UIViewController, UICollectionViewDataSource, U
         //Get data element from indexPath
         let painting: Painting = paintingDataModel.paintingWithIndex(paintingIndex: indexPath.item)
         
-        theView.painting = painting
+        
+        
         
         //Convert to a cell
         let cell: UICollectionViewCell = collectionView.dequeueReusableCell(withReuseIdentifier: NSStringFromClass(UICollectionViewCell.self), for: indexPath)
-        cell.backgroundColor = UIColor.lightGray
+        //cell.backgroundColor = UIColor.lightGray
         
         //set cell sizes and row and columns, subclass UICollectionview cell in another class and do layout there!!
         
         
         
-//        let label: UILabel = cell.contentView.subviews.count == 0 ? UILabel() : cell.contentView.subviews[0] as! UILabel
-//        //adddrawing view here!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        painting.frame = CGRect(x: 0.0,y: 0.0,width: 60.0,height: 30.0)
-//        label.textColor = UIColor.white
-//        //TODO: create an image view, or instantiation view of painting view and load it with info from painting to represent painting. 
-//        label.text = "\(painting.strokes.count)"
-//        label.adjustsFontSizeToFitWidth = true;
-        cell.contentView.addSubview(theView.painting)
+        //let label: UILabel = cell.contentView.subviews.count == 0 ? UILabel() : cell.contentView.subviews[0] as! UILabel
+        //adddrawing view here!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        let theView: DrawingView = DrawingView()
+        //painting.frame = cell.bounds
+        theView.painting = painting
+        theView.painting.backgroundColor = UIColor.lightGray
+        //label.frame = cell.bounds
+        theView.frame = cell.bounds
+        theView.layer.cornerRadius = cell.bounds.height / 2.0
+        theView.center = CGPoint(x: cell.bounds.width / 2.0, y: cell.bounds.height / 2.0)
+        //theView.painting.backgroundColor = UIColor.red
+        //theView.backgroundColor = UIColor.blue
+        //theView.painting.backgroundColor = UIColor.white
+        //        label.textColor = UIColor.white
+        //TODO: create an image view, or instantiation view of painting view and load it with info from painting to represent painting.
+        //label.text = "\(theView.painting.lines.count)"
+        //label.adjustsFontSizeToFitWidth = true;
+        
+        cell.contentView.isUserInteractionEnabled = false;
+
+        NSLog("Lines: " + "\(theView.painting.lines.count)")
+        cell.contentView.addSubview(theView)
+        
         return cell
     }
     

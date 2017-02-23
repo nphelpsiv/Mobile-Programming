@@ -8,13 +8,13 @@
 
 import UIKit
 
-class ObjectViewController: UIViewController{
+class ObjectViewController: UIViewController, BrushDelegate {
     private var _paintingDataModel: PaintingDataModel?
     private var _paintingIndex: Int? = nil
     public var wasDeleted: Bool = false;
     public var hitBackButton: Bool = false;
     private var context: CGContext? = nil
-    var undoArr = [Lines]()
+    var undoArr = [Line]()
     var buttons = [UIBarButtonItem]()
     
     var paintingDataModel: PaintingDataModel?
@@ -34,26 +34,15 @@ class ObjectViewController: UIViewController{
             _paintingIndex = newValue
         }
     }
-    
-//    var labelView: UILabel{
-//        return view as! UILabel
-//    }
-    
     var theView: DrawingView{
         return view as! DrawingView
     }
-    var painting: Painting? {
-        didSet{
-            //TODO: load painting into view, what goes in line 65 in objects list view
-            //view = painting;
-            
-        }
-    }
+    var _painting: Painting?
+
     
     override func loadView() {
-        //not label in future, should be pic view
-        //view = UILabel()
         view = DrawingView();
+        
     }
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -76,6 +65,10 @@ class ObjectViewController: UIViewController{
         let undoButtonItem = UIBarButtonItem.init(barButtonSystemItem: .undo ,target: self, action: #selector(undo))
         buttons.append(undoButtonItem)
         
+        let settingsButtonItem = UIBarButtonItem.init(barButtonSystemItem: .edit ,target: self, action: #selector(settings))
+        //self.navigationItem.rightBarButtonItem = rightButtonItem
+        buttons.append(settingsButtonItem)
+        
         self.navigationItem.setRightBarButtonItems(buttons, animated: true)
 
     }
@@ -88,6 +81,7 @@ class ObjectViewController: UIViewController{
         
         //objectViewController.painting = painting;
         let painting: Painting = _paintingDataModel!.paintingWithIndex(paintingIndex: paintingIndex!)
+        _painting = painting
         theView.painting = painting
         //NSLog("Painting! " + "\(painting)")
         
@@ -103,7 +97,7 @@ class ObjectViewController: UIViewController{
     }
     func undo()
     {
-        NSLog("UNDO!")
+        //NSLog("UNDO!")
         let painting: Painting = _paintingDataModel!.paintingWithIndex(paintingIndex: paintingIndex!)
         if(!painting.lines.isEmpty)
         {
@@ -115,13 +109,19 @@ class ObjectViewController: UIViewController{
     }
     func redo()
     {
-        NSLog("Redo!!")
+        //NSLog("Redo!!")
         let painting: Painting = _paintingDataModel!.paintingWithIndex(paintingIndex: paintingIndex!)
         if(!undoArr.isEmpty)
         {
             painting.addLine(line: undoArr.popLast()!)
             view.setNeedsDisplay()
         }
+    }
+    func settings()
+    {
+        let brushVC: BrushViewController = BrushViewController()
+        brushVC.delegate = self
+        navigationController?.pushViewController(brushVC, animated: true)
     }
     override func willMove(toParentViewController parent: UIViewController?) {
         super.willMove(toParentViewController: parent)
@@ -130,14 +130,34 @@ class ObjectViewController: UIViewController{
             parent?.setNeedsFocusUpdate()
         }
     }
+    
+    
+    
+    func setNewColor(color: UIColor){
+        NSLog("COLOR!!!!!")
+        theView.color = color
+        
+    }
+    func setNewWidth(width: Double){
+        theView.width = width
+    }
+    func setNewEndCap(endCap: CGLineCap){
+        //painting.lineCap = endCap
+        theView.cap = endCap
+    }
+    func setNewLineJoin(join: CGLineJoin){
+        //painting.lineJoin = join
+        theView.join = join
+    }
+    
 
-//    private func strokeToPolyLine(stroke: Stroke) -> PolyLine
+//    private func lineToPolyLine(line: Lines, paintingView: UIView) -> PolyLines
 //    {
 //        //stroke has color, line cap etc, comes from brush chooser
-//        for point: Point in stroke.points
+//        for point in line.points
 //        {
 //            //convertting from 0 -> 1 coord system to paintingView bounds. width and height
-//            let polyLinePoint: CGPoint = CGPoint.zero
+//            var polyLinePoint: CGPoint = CGPoint.zero
 //            polyLinePoint.x = point.x * paintingView.bounds.width
 //            polyLinePoint.y = point.y * paintingView.bounds.height
 //        }
