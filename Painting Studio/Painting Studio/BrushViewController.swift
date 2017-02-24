@@ -43,14 +43,14 @@ class BrushViewController: UIViewController {
     }
     func colorChanged()
     {
-        NSLog( "Changed to: \(mainView?.brushView?.getColor)")
+        //NSLog( "Changed to: \(mainView?.brushView?.getColor)")
         mainView?.drawerView?.color = (mainView?.brushView?.getColor)!
         //controller._painting?.color = (mainView?.brushView?.getColor)!
         delegate?.setNewColor(color: (mainView?.brushView?.getColor)!)
     }
     func sliderChanged(){
-        NSLog(String(describing: mainView?.drawerView?.lineWidth))
-        NSLog(String(describing: mainView?.slideView?.getSlider.value))
+        //NSLog(String(describing: mainView?.drawerView?.lineWidth))
+        //NSLog(String(describing: mainView?.slideView?.getSlider.value))
         mainView?.drawerView?.lineWidth = (CGFloat((mainView?.slideView?.getSlider.value)!))
         delegate?.setNewWidth(width: (Double(CGFloat((mainView?.slideView?.getSlider.value)!))))
         

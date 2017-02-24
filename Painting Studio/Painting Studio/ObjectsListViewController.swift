@@ -17,7 +17,6 @@ class ObjectsListViewController: UIViewController, UICollectionViewDataSource, U
     }
     
     var numOfCells = 25;
-    //datamodel
     
     //THE MODEL!!!
     private var paintingDataModel: PaintingDataModel = PaintingDataModel()
@@ -26,6 +25,9 @@ class ObjectsListViewController: UIViewController, UICollectionViewDataSource, U
     
     override func loadView() {
         let collectionLayout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
+        
+        collectionLayout.itemSize = CGSize(width: 90, height: 160)
+        collectionLayout.sectionInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
         
         view = UICollectionView(frame: CGRect.zero, collectionViewLayout: collectionLayout)
         view.backgroundColor = UIColor.darkGray
@@ -68,34 +70,18 @@ class ObjectsListViewController: UIViewController, UICollectionViewDataSource, U
         
         //Convert to a cell
         let cell: UICollectionViewCell = collectionView.dequeueReusableCell(withReuseIdentifier: NSStringFromClass(UICollectionViewCell.self), for: indexPath)
-        //cell.backgroundColor = UIColor.lightGray
+        cell.layer.cornerRadius = 3.0
         
-        //set cell sizes and row and columns, subclass UICollectionview cell in another class and do layout there!!
-        
-        
-        
-        //let label: UILabel = cell.contentView.subviews.count == 0 ? UILabel() : cell.contentView.subviews[0] as! UILabel
         //adddrawing view here!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        let theView: DrawingView = DrawingView()
-        //painting.frame = cell.bounds
-        theView.painting = painting
-        theView.painting.backgroundColor = UIColor.lightGray
-        //label.frame = cell.bounds
-        theView.frame = cell.bounds
-        theView.layer.cornerRadius = cell.bounds.height / 2.0
-        theView.center = CGPoint(x: cell.bounds.width / 2.0, y: cell.bounds.height / 2.0)
-        //theView.painting.backgroundColor = UIColor.red
-        //theView.backgroundColor = UIColor.blue
-        //theView.painting.backgroundColor = UIColor.white
-        //        label.textColor = UIColor.white
-        //TODO: create an image view, or instantiation view of painting view and load it with info from painting to represent painting.
-        //label.text = "\(theView.painting.lines.count)"
-        //label.adjustsFontSizeToFitWidth = true;
+        let cellView: CellDrawingView = CellDrawingView()
+        cellView.painting = painting
+        cell.backgroundColor = UIColor.white
+        cellView.frame = cell.bounds
         
         cell.contentView.isUserInteractionEnabled = false;
 
-        NSLog("Lines: " + "\(theView.painting.lines.count)")
-        cell.contentView.addSubview(theView)
+        //NSLog("Lines: " + "\(theView.painting.lines.count)")
+        cell.contentView.addSubview(cellView)
         
         return cell
     }
@@ -104,8 +90,6 @@ class ObjectsListViewController: UIViewController, UICollectionViewDataSource, U
         
         
         //Get Data element from index
-        //let painting: Painting = paintingDataModel.paintingWithIndex(paintingIndex: indexPath.item)
-        
         
         let paintingIndex: Int = indexPath.item
     
@@ -113,38 +97,22 @@ class ObjectsListViewController: UIViewController, UICollectionViewDataSource, U
         //Build a view controller and give it the data needs
         let objectViewController: ObjectViewController = ObjectViewController()
         
-        //objectViewController.title = "\(painting.strokes.count)"
         
         objectViewController.paintingDataModel = paintingDataModel
         objectViewController.paintingIndex = paintingIndex
         
-        //Where they can pull up the painting
-        
-        
-        
-        //objectViewController.labelView.text = "The painting has \(painting.strokes.count) strokes"
-        
-        //painting(painting, toObjectView: objectViewController.paintView)
         
         navigationController?.pushViewController(objectViewController, animated: true)
-        //self.navigationItem.rightBarButtonItem = rightButtonItem
         
     }
-    
-//    private func paintingFromObjectView(paintView: ObjectView) -> Painting{
-//        
-//    }
-//    private func painting(painting: Painting, toObjectView paintView: ObjectView)
-//    {
-//        
-//    }
+
     func collection(collection: PaintingDataModel, strokeAddedToPainting paintingIndex: Int)
     {
         listView.reloadData()
     }
     func addNewPainting()
     {
-        NSLog("Button HIT!")
+        //NSLog("Button HIT!")
         paintingDataModel.addNewPainting(painting: Painting())
         listView.reloadData()
     }

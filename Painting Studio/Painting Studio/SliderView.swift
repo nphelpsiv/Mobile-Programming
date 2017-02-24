@@ -23,7 +23,7 @@ class SliderView: UIView{
         label.frame = CGRect(x: 0.0, y: 0.0, width: 100.0, height: 15.0)
         addSubview(label)
         slider.frame = CGRect(x: 10.0 , y: 10.0, width: 295.0, height: 50.0)
-        slider.minimumValue = 0.5
+        slider.minimumValue = 1.0
         slider.maximumValue = 50.0
         addSubview(slider)
     }

@@ -10,19 +10,11 @@ import UIKit
 
 class Painting: UIView
 {
-    var lines: [Line]
+    var lines: [Stroke]
     var polyLines: [PolyLines]
-    var aspectRatio: Double
-    var lastPoint: CGPoint
-    var opacity: CGFloat
-    var moved: Bool
     override init(frame: CGRect) {
-        lines = [Line]()
+        lines = [Stroke]()
         polyLines = [PolyLines]()
-        aspectRatio = 1.0
-        lastPoint = CGPoint.zero
-        opacity = 1.0
-        moved  = false;
         super.init(frame: frame)
         
     }
@@ -30,13 +22,20 @@ class Painting: UIView
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    func addLine(line: Line)
+    func addLine(line: Stroke)
     {
         lines.append(line)
     }
+    func addPolyLine(polyline: PolyLines)
+    {
+        polyLines.append(polyline)
+    }
 
 }
-class Line
+
+
+//LINES!!
+class Stroke
 {
     var lineWidth: Double = 0.5
     var lineJoin: CGLineJoin = .bevel
@@ -55,7 +54,59 @@ class Line
         }
         set{
             lineColor = newValue
-            NSLog("NEW COLOR: " + "\(lineColor)")
+        }
+    }
+    var cap: CGLineCap
+        {
+        get{
+            return lineCap
+        }
+        set{
+            lineCap = newValue
+        }
+    }
+    var width: Double
+        {
+        get{
+            return lineWidth
+        }
+        set{
+            lineWidth = newValue
+        }
+    }
+    var join: CGLineJoin
+        {
+        get{
+            return lineJoin
+        }
+        set{
+            lineJoin = newValue
+        }
+    }
+}
+
+
+//POLYLINES!!
+class PolyLines
+{
+    var polyPoints = [CGPoint]()
+    var lineWidth: Double = 0.5
+    var lineJoin: CGLineJoin = .bevel
+    var lineCap: CGLineCap = .square
+    var lineColor: UIColor = UIColor.white
+    
+    func addPolyPoint(point: CGPoint)
+    {
+        polyPoints.append(point)
+    }
+    var color: UIColor
+        {
+        get{
+            return lineColor
+        }
+        set{
+            lineColor = newValue
+            NSLog("NEW POLY COLOR: " + "\(lineColor)")
         }
     }
     var cap: CGLineCap
@@ -85,16 +136,8 @@ class Line
         }
         set{
             lineJoin = newValue
-            NSLog("NEW COLOR: " + "\(lineColor)")
+            
         }
-    }
-}
-class PolyLines
-{
-    var polyPoints = [CGPoint]()
-    func addPolyPoint(point: CGPoint)
-    {
-        polyPoints.append(point)
     }
 }
 

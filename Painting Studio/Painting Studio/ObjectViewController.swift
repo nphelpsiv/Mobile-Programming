@@ -8,13 +8,14 @@
 
 import UIKit
 
-class ObjectViewController: UIViewController, BrushDelegate {
+class ObjectViewController: UIViewController, BrushDelegate, DrawingDelegate {
     private var _paintingDataModel: PaintingDataModel?
     private var _paintingIndex: Int? = nil
     public var wasDeleted: Bool = false;
     public var hitBackButton: Bool = false;
     private var context: CGContext? = nil
-    var undoArr = [Line]()
+    var undoArr = [Stroke]()
+    var undoArrPoly = [PolyLines]()
     var buttons = [UIBarButtonItem]()
     
     var paintingDataModel: PaintingDataModel?
@@ -37,26 +38,21 @@ class ObjectViewController: UIViewController, BrushDelegate {
     var theView: DrawingView{
         return view as! DrawingView
     }
+    var cellView: CellDrawingView = CellDrawingView()
     var _painting: Painting?
 
     
     override func loadView() {
         view = DrawingView();
+        theView.delegate = self
         
     }
     override func viewDidLoad() {
         super.viewDidLoad()
-        theView.backgroundColor = UIColor.lightGray
-        
-//        labelView.textAlignment = .center
-//        labelView.numberOfLines = -1
-        
-        //UIGraphicsBeginImageContext(view.frame.size)
-        
+        theView.backgroundColor = UIColor.black
         
         
         let rightButtonItem = UIBarButtonItem.init(barButtonSystemItem: .trash ,target: self, action: #selector(deletePainting))
-        //self.navigationItem.rightBarButtonItem = rightButtonItem
         buttons.append(rightButtonItem)
         
         let redoButtonItem = UIBarButtonItem.init(barButtonSystemItem: .redo ,target: self, action: #selector(redo))
@@ -66,7 +62,7 @@ class ObjectViewController: UIViewController, BrushDelegate {
         buttons.append(undoButtonItem)
         
         let settingsButtonItem = UIBarButtonItem.init(barButtonSystemItem: .edit ,target: self, action: #selector(settings))
-        //self.navigationItem.rightBarButtonItem = rightButtonItem
+
         buttons.append(settingsButtonItem)
         
         self.navigationItem.setRightBarButtonItems(buttons, animated: true)
@@ -74,19 +70,14 @@ class ObjectViewController: UIViewController, BrushDelegate {
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
+      
         if(_paintingDataModel == nil || _paintingIndex == nil){
             return
         }
         
-        //objectViewController.painting = painting;
         let painting: Painting = _paintingDataModel!.paintingWithIndex(paintingIndex: paintingIndex!)
         _painting = painting
         theView.painting = painting
-        //NSLog("Painting! " + "\(painting)")
-        
-        //NSLog("First Point: " + "\(painting.points.first)")
-        //labelView.text = "This is a paint with \(painting.strokes.count) strokes"
     }
     func deletePainting()
     {
@@ -97,24 +88,30 @@ class ObjectViewController: UIViewController, BrushDelegate {
     }
     func undo()
     {
-        //NSLog("UNDO!")
         let painting: Painting = _paintingDataModel!.paintingWithIndex(paintingIndex: paintingIndex!)
         if(!painting.lines.isEmpty)
         {
             var undoLine = painting.lines.popLast()
             undoArr.append(undoLine!);
             view.setNeedsDisplay()
+            
+            
+            var undoLinePoly = painting.polyLines.popLast()
+            undoArrPoly.append(undoLinePoly!);
+            cellView.setNeedsDisplay()
         }
         
     }
     func redo()
     {
-        //NSLog("Redo!!")
         let painting: Painting = _paintingDataModel!.paintingWithIndex(paintingIndex: paintingIndex!)
         if(!undoArr.isEmpty)
         {
             painting.addLine(line: undoArr.popLast()!)
             view.setNeedsDisplay()
+            
+            painting.addPolyLine(polyline: undoArrPoly.popLast()!)
+            cellView.setNeedsDisplay()
         }
     }
     func settings()
@@ -130,43 +127,25 @@ class ObjectViewController: UIViewController, BrushDelegate {
             parent?.setNeedsFocusUpdate()
         }
     }
-    
+    func clearUndoArr() {
+        undoArr.removeAll()
+    }
     
     
     func setNewColor(color: UIColor){
-        NSLog("COLOR!!!!!")
         theView.color = color
         
     }
     func setNewWidth(width: Double){
         theView.width = width
+        
     }
     func setNewEndCap(endCap: CGLineCap){
-        //painting.lineCap = endCap
         theView.cap = endCap
     }
     func setNewLineJoin(join: CGLineJoin){
-        //painting.lineJoin = join
         theView.join = join
     }
     
-
-//    private func lineToPolyLine(line: Lines, paintingView: UIView) -> PolyLines
-//    {
-//        //stroke has color, line cap etc, comes from brush chooser
-//        for point in line.points
-//        {
-//            //convertting from 0 -> 1 coord system to paintingView bounds. width and height
-//            var polyLinePoint: CGPoint = CGPoint.zero
-//            polyLinePoint.x = point.x * paintingView.bounds.width
-//            polyLinePoint.y = point.y * paintingView.bounds.height
-//        }
-//        return nil;
-//        
-//    }
-//    private func strokeToPolyLine(stroke: PaintingDataModel.Stroke) -> PaintingView.Stroke
-//    {
-//        
-//    }
 
 }

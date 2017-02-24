@@ -8,16 +8,15 @@
 
 import UIKit
 
+protocol DrawingDelegate: class {
+    func clearUndoArr()
+}
+
 class DrawingView: UIView
 {
     private var context: CGContext? = nil
-    //private var lineWidth2: CGFloat = 0.5
-    //private var label: UILabel = UILabel()
-    //private var lineCap: CGLineCap = .square
-    //private var lineJoin: CGLineJoin = .bevel
-    //private var strokeColor: UIColor = UIColor.white
     private var _painting: Painting = Painting()
-    //var _lines: Lines = Lines()
+    private var cellView: CellDrawingView = CellDrawingView()
     
     private var lineWidth: Double = 0.5
     private var lineJoin: CGLineJoin = .bevel
@@ -27,8 +26,7 @@ class DrawingView: UIView
 
     
     private var lastSpot: CGPoint = CGPoint.zero
-    private var touchesEnded: Bool = false;
-    private var touchesBegan: Bool = false;
+    var touchesBeganHit: Bool = false;
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -40,9 +38,6 @@ class DrawingView: UIView
     override func draw(_ rect: CGRect) {
         
         context = UIGraphicsGetCurrentContext()!
-        
-        //?.move(to: CGPoint(x: 20.0, y: 15.0))
-        //context?.addLine(to: CGPoint(x: 200.0, y: 30.0))
         
         for line in painting.lines
         {
@@ -57,7 +52,6 @@ class DrawingView: UIView
                 }
                 
             }
-            //NSLog("Color in Context: " + "\(painting.color)")
             context?.setLineWidth(CGFloat(line.width))
             context?.setLineCap(line.cap)
             context?.setLineJoin(line.join)
@@ -65,41 +59,43 @@ class DrawingView: UIView
             context?.drawPath(using: .stroke)
         }
         
-        
-        
-        
-        //setNeedsDisplay()
-        
     }
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        let line: Line = Line()
+        delegate?.clearUndoArr()
+        let line: Stroke = Stroke()
         line.color = lineColor
         line.cap = lineCap
         line.join = lineJoin
         line.width = lineWidth
         painting.addLine(line: line)
+        
+        //NSLog("TOUCHES BEGAN IN CELL POLY")
+        let polyline: PolyLines = PolyLines()
+        polyline.color = lineColor
+        polyline.cap = lineCap
+        polyline.join = lineJoin
+        polyline.width = lineWidth / 2.55
+        painting.addPolyLine(polyline: polyline)
     }
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
         let touch: UITouch = touches.first!
         var touchPoint: CGPoint = touch.location(in: self)
-        //NSLog("x: \(touchPoint.x) y: \(touchPoint.y)")
-        
-        //painting.lines.addPoint(point: touchPoint)
         painting.lines.last?.addPoint(point: touchPoint)
+        
+        
+        touchPoint.x = touchPoint.x / 3.55
+        touchPoint.y = touchPoint.y / 3.55
+        painting.polyLines.last?.addPolyPoint(point: touchPoint)
+        
         setNeedsDisplay()
-        //sendActions(for: .valueChanged)
-        //     theta = atan2(y, x)
+        cellView.setNeedsDisplay()
         
         
     }
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         let touch: UITouch = touches.first!
         lastSpot = touch.location(in: self)
-        NSLog("TouchENDED!" + "\(lastSpot)")
-        touchesEnded = true;
-        touchesBegan = false;
         
-        //setNeedsDisplay()
     }
     var painting: Painting {
         get{
@@ -107,7 +103,6 @@ class DrawingView: UIView
         }
         set{
             _painting = newValue
-            //setNeedsDisplay()
         }
     }
     var drawContext: CGContext? {return context}
@@ -119,7 +114,6 @@ class DrawingView: UIView
         }
         set{
             lineColor = newValue
-            NSLog("NEW COLOR: " + "\(lineColor)")
         }
     }
     var cap: CGLineCap
@@ -129,7 +123,6 @@ class DrawingView: UIView
         }
         set{
             lineCap = newValue
-            //NSLog("NEW COLOR: " + "\(lineColor)")
         }
     }
     var width: Double
@@ -139,7 +132,6 @@ class DrawingView: UIView
         }
         set{
             lineWidth = newValue
-            //NSLog("NEW COLOR: " + "\(lineColor)")
         }
     }
     var join: CGLineJoin
@@ -153,5 +145,5 @@ class DrawingView: UIView
         }
     }
 
-
+    weak var delegate: DrawingDelegate? = nil
 }

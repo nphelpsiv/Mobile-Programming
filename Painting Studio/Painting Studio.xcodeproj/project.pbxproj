@@ -14,7 +14,7 @@
 		3D31CBC41E57CB2D008E6BE4 /* ObjectViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D31CBC31E57CB2D008E6BE4 /* ObjectViewController.swift */; };
 		3D426BDD1E5CDBBF00A8B644 /* PaintingsDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D426BDC1E5CDBBF00A8B644 /* PaintingsDataModel.swift */; };
 		3D426BE21E5CE03700A8B644 /* Painting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D426BE11E5CE03700A8B644 /* Painting.swift */; };
-		3D426BE41E5CF8DA00A8B644 /* PaintingFrameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D426BE31E5CF8DA00A8B644 /* PaintingFrameView.swift */; };
+		3D622B811E5FBC8100BA4E95 /* CellDrawingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D622B801E5FBC8100BA4E95 /* CellDrawingView.swift */; };
 		3DA50F0A1E5D234B00428843 /* DrawingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DA50F091E5D234B00428843 /* DrawingView.swift */; };
 		3DA95D691E5E854700DF8370 /* BrushViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DA95D681E5E854700DF8370 /* BrushViewController.swift */; };
 		3DA95D6B1E5E856A00DF8370 /* BrushColorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DA95D6A1E5E856A00DF8370 /* BrushColorView.swift */; };
@@ -36,7 +36,7 @@
 		3D31CBC31E57CB2D008E6BE4 /* ObjectViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ObjectViewController.swift; path = "Painting Studio/ObjectViewController.swift"; sourceTree = "<group>"; };
 		3D426BDC1E5CDBBF00A8B644 /* PaintingsDataModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PaintingsDataModel.swift; path = "Painting Studio/PaintingsDataModel.swift"; sourceTree = "<group>"; };
 		3D426BE11E5CE03700A8B644 /* Painting.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Painting.swift; sourceTree = "<group>"; };
-		3D426BE31E5CF8DA00A8B644 /* PaintingFrameView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaintingFrameView.swift; sourceTree = "<group>"; };
+		3D622B801E5FBC8100BA4E95 /* CellDrawingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CellDrawingView.swift; sourceTree = "<group>"; };
 		3DA50F091E5D234B00428843 /* DrawingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DrawingView.swift; sourceTree = "<group>"; };
 		3DA95D681E5E854700DF8370 /* BrushViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BrushViewController.swift; sourceTree = "<group>"; };
 		3DA95D6A1E5E856A00DF8370 /* BrushColorView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BrushColorView.swift; sourceTree = "<group>"; };
@@ -102,9 +102,9 @@
 		3D426BDF1E5CDBF400A8B644 /* PaintingDetail */ = {
 			isa = PBXGroup;
 			children = (
-				3D426BE31E5CF8DA00A8B644 /* PaintingFrameView.swift */,
 				3D31CBC31E57CB2D008E6BE4 /* ObjectViewController.swift */,
 				3DA50F091E5D234B00428843 /* DrawingView.swift */,
+				3D622B801E5FBC8100BA4E95 /* CellDrawingView.swift */,
 			);
 			name = PaintingDetail;
 			path = ..;
@@ -213,8 +213,8 @@
 				3D31CBAE1E57AF4A008E6BE4 /* AppDelegate.swift in Sources */,
 				3D31CBC21E57C63D008E6BE4 /* ObjectsListViewController.swift in Sources */,
 				3DA50F0A1E5D234B00428843 /* DrawingView.swift in Sources */,
+				3D622B811E5FBC8100BA4E95 /* CellDrawingView.swift in Sources */,
 				3DA95D771E5E862C00DF8370 /* buttonsView.swift in Sources */,
-				3D426BE41E5CF8DA00A8B644 /* PaintingFrameView.swift in Sources */,
 				3DA95D6F1E5E85A800DF8370 /* PreviewView.swift in Sources */,
 				3DA95D691E5E854700DF8370 /* BrushViewController.swift in Sources */,
 				3D426BE21E5CE03700A8B644 /* Painting.swift in Sources */,

@@ -16,7 +16,7 @@ class BrushColorView: UIControl
     private var nibColor: UIColor = UIColor.black
     override func draw(_ rect: CGRect)
     {
-        brushColorRect = CGRect(x: 26.0, y: 22.0, width: bounds.size.width * 0.85, height: bounds.size.height * 0.85)
+        brushColorRect = CGRect(x: 55.0, y: 80.0, width: bounds.size.width * 0.65, height: bounds.size.height * 0.65)
         
         let context: CGContext = UIGraphicsGetCurrentContext()!
         context.addEllipse(in: brushColorRect)
@@ -45,7 +45,7 @@ class BrushColorView: UIControl
         if(brushColorRect.contains(CGPoint(x: nibRect.origin.x,y:  nibRect.origin.y)))
         {
             nibColor = colorFromColorWheelWithBoundingRect(rect: brushColorRect, point: CGPoint(x: nibRect.origin.x,y: nibRect.origin.y), brightness: 1.0, alpha: 1.0)
-            NSLog( "Changed to: \(nibColor)")
+            //NSLog( "Changed to: \(nibColor)")
             sendActions(for: .valueChanged)
             
             context.setFillColor(nibColor.cgColor)
