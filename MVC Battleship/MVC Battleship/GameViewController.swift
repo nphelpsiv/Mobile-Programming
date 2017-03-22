@@ -12,6 +12,8 @@ class GameViewController: UIViewController, GameViewDelegate {
     private var _game: Game? = nil
     private var touchPoint: CGPoint = CGPoint.zero
     var alertController: UIAlertController? = nil
+    var alertController2: UIAlertController? = nil
+    var shipWasDestroyedorGameWon: Bool = false
     
     init?(game: Game) {
         _game = game
@@ -79,7 +81,7 @@ class GameViewController: UIViewController, GameViewDelegate {
     {
         alertController = UIAlertController(title: toast, message: nil, preferredStyle: .alert)
         self.present(alertController!, animated: true, completion: nil)
-        _ = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(dismissMessage), userInfo: nil, repeats: false)
+        _ = Timer.scheduledTimer(timeInterval: 0.06, target: self, selector: #selector(dismissMessage), userInfo: nil, repeats: false)
     }
     
     func dismissMessage()
@@ -87,11 +89,60 @@ class GameViewController: UIViewController, GameViewDelegate {
         alertController?.dismiss(animated: true, completion: nil)
     }
     
+    func toast2(toast: String)
+    {
+        alertController2 = UIAlertController(title: toast, message: nil, preferredStyle: .alert)
+        self.present(alertController2!, animated: true, completion: nil)
+        _ = Timer.scheduledTimer(timeInterval: 0.06, target: self, selector: #selector(dismissMessage2), userInfo: nil, repeats: false)
+    }
+    
+    func dismissMessage2()
+    {
+        alertController2?.dismiss(animated: true, completion: nil)
+    }
+    
     
     func rectWithTouchedPointAt(col: Int, row: Int) {
         _game?.takeMove(col: row, row: col)
+        
+        if((_game?.ship5Health)! == 0)
+        {
+            shipWasDestroyedorGameWon = true
+            _game?.ship5Health = (_game?.ship5Health)! - 1
+            toast2(toast: "Ship Destroyed!")
+        }
+        else if((_game?.ship4Health)! == 0)
+        {
+            shipWasDestroyedorGameWon = true
+            _game?.ship4Health = (_game?.ship4Health)! - 1
+            toast2(toast: "Ship Destroyed!")
+        }
+        else if((_game?.ship3Health)! == 0)
+        {
+            shipWasDestroyedorGameWon = true
+            _game?.ship3Health = (_game?.ship3Health)! - 1
+            toast2(toast: "Ship Destroyed!")
+        }
+        else if((_game?.ship2Health)! == 0)
+        {
+            shipWasDestroyedorGameWon = true
+            _game?.ship2Health = (_game?.ship2Health)! - 1
+            toast2(toast: "Ship Destroyed!")
+        }
+        else if((_game?.ship1Health)! == 0)
+        {
+            shipWasDestroyedorGameWon = true
+            _game?.ship1Health = (_game?.ship1Health)! - 1
+            toast2(toast: "Ship Destroyed!")
+        }
+        
+        
+        
         refresh()
         gameView.setNeedsDisplay()
+        
+        
+
         
     }
 }

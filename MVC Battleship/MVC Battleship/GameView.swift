@@ -93,8 +93,8 @@ class GameView: UIView {
             
             
             //checks after clicking
-            NSLog("LocalTokenCol: " + "\(tokenCol)" + " LocalTokenRow: " + "\(tokenRow)" + " GlobalTokenCol: " + "\(touchedColGlobal)" + " GlobalTokenRow: " + "\(touchedRowGlobal)")
-            NSLog("TOKEN: " + "\(token)")
+            //NSLog("LocalTokenCol: " + "\(tokenCol)" + " LocalTokenRow: " + "\(tokenRow)" + " GlobalTokenCol: " + "\(touchedColGlobal)" + " GlobalTokenRow: " + "\(touchedRowGlobal)")
+            //NSLog("TOKEN: " + "\(token)")
             if(touched == true && token == "\u{2705}" && tokenCol == touchedColGlobal && tokenRow == touchedRowGlobal)
             {
                 delegate?.toast(toast: "Hit!")
@@ -196,7 +196,7 @@ class GameView: UIView {
                                    "none", "none", "none", "none", "none", "none", "none", "none", "none", "none"
                                    ]{
         didSet {
-            NSLog("Did set tokens")
+            //NSLog("Did set tokens")
             setNeedsDisplay()
         }
     }
@@ -212,7 +212,7 @@ class GameView: UIView {
                                    "none", "none", "none", "none", "none", "none", "none", "none", "none", "none"
         ]{
         didSet {
-            NSLog("Did set tokensDefend")
+            //NSLog("Did set tokensDefend")
             setNeedsDisplay()
         }
     }

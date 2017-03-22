@@ -10,6 +10,14 @@ import Foundation
 
 class Game {
     
+    
+    var ships: [(shipID: Int, shipCoords: [(col: Int, row: Int)])] = []
+    public var ship5Health = 5
+    public var ship4Health = 4
+    public var ship3Health = 3
+    public var ship2Health = 3
+    public var ship1Health = 2
+    
     public enum Token {
         case none
         case miss
@@ -48,17 +56,17 @@ class Game {
     
     init()
     {
-        placeShip(size: 5, board: "Top");
-        placeShip(size: 4, board: "Top");
-        placeShip(size: 3, board: "Top");
-        placeShip(size: 3, board: "Top");
-        placeShip(size: 2, board: "Top");
+        placeShip(size: 5, board: "Top", shipID: 5);
+        placeShip(size: 4, board: "Top", shipID: 4);
+        placeShip(size: 3, board: "Top", shipID: 3);
+        placeShip(size: 3, board: "Top", shipID: 2);
+        placeShip(size: 2, board: "Top", shipID: 1);
         
-        placeShip(size: 5, board: "Bot");
-        placeShip(size: 4, board: "Bot");
-        placeShip(size: 3, board: "Bot");
-        placeShip(size: 3, board: "Bot");
-        placeShip(size: 2, board: "Bot");
+        placeShip(size: 5, board: "Bot", shipID: 5);
+        placeShip(size: 4, board: "Bot", shipID: 4);
+        placeShip(size: 3, board: "Bot", shipID: 3);
+        placeShip(size: 3, board: "Bot", shipID: 2);
+        placeShip(size: 2, board: "Bot", shipID: 1);
     }
     
     public var movesTaken: Int {
@@ -95,15 +103,45 @@ class Game {
         else if(_board[col][row] == .ship)
         {
             _board[col][row] = .hit
+            
+            
+            for ship in ships
+            {
+                //NSLog("Col: " + "\(col)" + " Row: " + "\(row)" + " ShipCol: " + "\(ship.col)" + " ShipRow: " + "\(ship.row)")
+                for shipCoord in ship.shipCoords
+                {
+                    if(shipCoord.col == col && shipCoord.row == row)
+                    {
+                        NSLog("Set to decrement a ships health")
+                        switch ship.shipID {
+                        case 5:
+                            ship5Health = ship5Health - 1
+                        case 4:
+                            ship4Health = ship4Health - 1
+                        case 3:
+                            ship3Health = ship3Health - 1
+                        case 2:
+                            ship2Health = ship2Health - 1
+                        case 1:
+                            ship1Health = ship1Health - 1
+                        default:
+                            NSLog("Error in decrement ship health")
+                        }
+                    }
+                }
+            }
         }
         
+
+        
     }
-    public func placeShip(size: Int, board: String)
+    public func placeShip(size: Int, board: String, shipID: Int)
     {
-        var coordinates: [(col: Int, row: Int)] = []
-        coordinates = getShipCoordinates(size: size, board: board)
-        for coord in coordinates
+        var shipCoordinates: [(col: Int, row: Int, shipID: Int)] = []
+        shipCoordinates = getShipCoordinates(size: size, board: board, shipID: shipID)
+        for coord in shipCoordinates
         {
+            ships.append((shipID: shipID, shipCoords: [(col: coord.col, row: coord.row)]))
             if(board == "Top")
             {
                 _defendTopBoard[coord.col][coord.row] = .ship
@@ -115,11 +153,11 @@ class Game {
         }
     }
     
-    private func getShipCoordinates(size: Int, board: String) -> [(col: Int, row: Int)]
+    private func getShipCoordinates(size: Int, board: String, shipID: Int) -> [(col: Int, row: Int, shipID: Int)]
     {
         if(board == "Top")
         {
-            var coordinates: [(col: Int, row: Int)] = []
+            var coordinates: [(col: Int, row: Int, shipID: Int)] = []
             let randRow = Int(arc4random_uniform(9))
             let randCol = Int(arc4random_uniform(9))
             if(randCol % 2 == 0)
@@ -133,7 +171,7 @@ class Game {
                         if(_defendTopBoard[randCol + index][randRow] == .none)
                         {
                             //_board[rand + index][rand] = .ship
-                            coordinates.append((col: randCol + index, row: randRow))
+                            coordinates.append((col: randCol + index, row: randRow, shipID: shipID))
                         }
                             //already ship in way try again
                         else
@@ -141,7 +179,7 @@ class Game {
                             
                             //no way possible restart
                             coordinates.removeAll()
-                            coordinates = getShipCoordinates(size: size, board: board)
+                            coordinates = getShipCoordinates(size: size, board: board, shipID: shipID)
                             return coordinates
                             
                         }
@@ -152,7 +190,7 @@ class Game {
                     {
                         //no way possible restart
                         coordinates.removeAll()
-                        coordinates = getShipCoordinates(size: size, board: board)
+                        coordinates = getShipCoordinates(size: size, board: board, shipID: shipID)
                         return coordinates
                     }
                 }
@@ -169,7 +207,7 @@ class Game {
                         if(_defendTopBoard[randCol][randRow + index] == .none)
                         {
                             //_board[rand][rand + index] = .ship
-                            coordinates.append((col: randCol, row: randRow + index))
+                            coordinates.append((col: randCol, row: randRow + index, shipID: shipID))
                         }
                             //index was already a ship go backwards
                         else
@@ -177,7 +215,7 @@ class Game {
                             
                             //no way possible restart
                             coordinates.removeAll()
-                            coordinates = getShipCoordinates(size: size, board: board)
+                            coordinates = getShipCoordinates(size: size, board: board, shipID: shipID)
                             return coordinates
                         }
                         
@@ -187,7 +225,7 @@ class Game {
                     {
                         //no way possible restart
                         coordinates.removeAll()
-                        coordinates = getShipCoordinates(size: size, board: board)
+                        coordinates = getShipCoordinates(size: size, board: board, shipID: shipID)
                         return coordinates
                     }
                 }
@@ -196,7 +234,7 @@ class Game {
         }
         else
         {
-            var coordinates: [(col: Int, row: Int)] = []
+            var coordinates: [(col: Int, row: Int, shipID: Int)] = []
             let randRow = Int(arc4random_uniform(9))
             let randCol = Int(arc4random_uniform(9))
             if(randCol % 2 == 0)
@@ -210,7 +248,7 @@ class Game {
                         if(_board[randCol + index][randRow] == .none)
                         {
                             //_board[rand + index][rand] = .ship
-                            coordinates.append((col: randCol + index, row: randRow))
+                            coordinates.append((col: randCol + index, row: randRow, shipID: shipID))
                         }
                             //already ship in way try again
                         else
@@ -218,7 +256,7 @@ class Game {
                             
                             //no way possible restart
                             coordinates.removeAll()
-                            coordinates = getShipCoordinates(size: size, board: board)
+                            coordinates = getShipCoordinates(size: size, board: board, shipID: shipID)
                             return coordinates
                             
                         }
@@ -229,7 +267,7 @@ class Game {
                     {
                         //no way possible restart
                         coordinates.removeAll()
-                        coordinates = getShipCoordinates(size: size, board: board)
+                        coordinates = getShipCoordinates(size: size, board: board, shipID: shipID)
                         return coordinates
                     }
                 }
@@ -246,7 +284,7 @@ class Game {
                         if(_board[randCol][randRow + index] == .none)
                         {
                             //_board[rand][rand + index] = .ship
-                            coordinates.append((col: randCol, row: randRow + index))
+                            coordinates.append((col: randCol, row: randRow + index, shipID: shipID))
                         }
                             //index was already a ship go backwards
                         else
@@ -254,7 +292,7 @@ class Game {
                             
                             //no way possible restart
                             coordinates.removeAll()
-                            coordinates = getShipCoordinates(size: size, board: board)
+                            coordinates = getShipCoordinates(size: size, board: board, shipID: shipID)
                             return coordinates
                         }
                         
@@ -264,7 +302,7 @@ class Game {
                     {
                         //no way possible restart
                         coordinates.removeAll()
-                        coordinates = getShipCoordinates(size: size, board: board)
+                        coordinates = getShipCoordinates(size: size, board: board, shipID: shipID)
                         return coordinates
                     }
                 }
