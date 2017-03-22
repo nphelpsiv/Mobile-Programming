@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3DAF05451E821C74008FE46C /* GameList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DAF05441E821C74008FE46C /* GameList.swift */; };
+		3DAF05471E821C8F008FE46C /* GameListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DAF05461E821C8F008FE46C /* GameListViewController.swift */; };
 		3DE54F931E81ACF00038ECC8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DE54F921E81ACF00038ECC8 /* AppDelegate.swift */; };
 		3DE54F951E81ACF00038ECC8 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DE54F941E81ACF00038ECC8 /* ViewController.swift */; };
 		3DE54F9A1E81ACF00038ECC8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3DE54F991E81ACF00038ECC8 /* Assets.xcassets */; };
@@ -16,6 +18,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		3DAF05441E821C74008FE46C /* GameList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameList.swift; sourceTree = "<group>"; };
+		3DAF05461E821C8F008FE46C /* GameListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameListViewController.swift; sourceTree = "<group>"; };
 		3DE54F8F1E81ACEF0038ECC8 /* MVC Battleship.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "MVC Battleship.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3DE54F921E81ACF00038ECC8 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3DE54F941E81ACF00038ECC8 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -63,6 +67,8 @@
 				3DE54FA41E81B01B0038ECC8 /* GameView.swift */,
 				3DE54FA61E81B0320038ECC8 /* GameViewController.swift */,
 				3DE54FA81E81B03F0038ECC8 /* GameModel.swift */,
+				3DAF05441E821C74008FE46C /* GameList.swift */,
+				3DAF05461E821C8F008FE46C /* GameListViewController.swift */,
 			);
 			path = "MVC Battleship";
 			sourceTree = "<group>";
@@ -138,9 +144,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				3DE54FA91E81B03F0038ECC8 /* GameModel.swift in Sources */,
+				3DAF05451E821C74008FE46C /* GameList.swift in Sources */,
 				3DE54FA71E81B0320038ECC8 /* GameViewController.swift in Sources */,
 				3DE54F951E81ACF00038ECC8 /* ViewController.swift in Sources */,
 				3DE54FA51E81B01B0038ECC8 /* GameView.swift in Sources */,
+				3DAF05471E821C8F008FE46C /* GameListViewController.swift in Sources */,
 				3DE54F931E81ACF00038ECC8 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -284,6 +292,7 @@
 				3DE54FA31E81ACF00038ECC8 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

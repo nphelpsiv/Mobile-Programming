@@ -28,9 +28,37 @@ class Game {
                                      [.none, .none, .none, .none, .none, .none, .none, .none, .none, .none],
                                      [.none, .none, .none, .none, .none, .none, .none, .none, .none, .none]]
     
+    private var _defendTopBoard: [[Token]] = [[.none, .none, .none, .none, .none, .none, .none, .none, .none, .none],
+                                     [.none, .none, .none, .none, .none, .none, .none, .none, .none, .none],
+                                     [.none, .none, .none, .none, .none, .none, .none, .none, .none, .none],
+                                     [.none, .none, .none, .none, .none, .none, .none, .none, .none, .none],
+                                     [.none, .none, .none, .none, .none, .none, .none, .none, .none, .none],
+                                     [.none, .none, .none, .none, .none, .none, .none, .none, .none, .none],
+                                     [.none, .none, .none, .none, .none, .none, .none, .none, .none, .none],
+                                     [.none, .none, .none, .none, .none, .none, .none, .none, .none, .none],
+                                     [.none, .none, .none, .none, .none, .none, .none, .none, .none, .none],
+                                     [.none, .none, .none, .none, .none, .none, .none, .none, .none, .none]]
+    
     
     public var currentPlayerIs1: Bool {
         return movesTaken % 2 == 0
+    }
+    
+    
+    
+    init()
+    {
+        placeShip(size: 5, board: "Top");
+        placeShip(size: 4, board: "Top");
+        placeShip(size: 3, board: "Top");
+        placeShip(size: 3, board: "Top");
+        placeShip(size: 2, board: "Top");
+        
+        placeShip(size: 5, board: "Bot");
+        placeShip(size: 4, board: "Bot");
+        placeShip(size: 3, board: "Bot");
+        placeShip(size: 3, board: "Bot");
+        placeShip(size: 2, board: "Bot");
     }
     
     public var movesTaken: Int {
@@ -53,99 +81,195 @@ class Game {
     public var board: [[Token]] {
         return _board
     }
+    public var defendTopBoard: [[Token]] {
+        return _defendTopBoard
+    }
     
     public func takeMove(col: Int, row: Int) {
         if (_board[col][row] == .none) {
-            _board[col][row] = currentPlayerIs1 ? .miss : .hit
+            //_board[col][row] = currentPlayerIs1 ? .miss : .hit
+            //if current player is 1
+            _board[col][row] = .miss
+            
+        }
+        else if(_board[col][row] == .ship)
+        {
+            _board[col][row] = .hit
         }
         
     }
-    public func placeShip(size: Int)
+    public func placeShip(size: Int, board: String)
     {
         var coordinates: [(col: Int, row: Int)] = []
-        coordinates = getShipCoordinates(size: size)
+        coordinates = getShipCoordinates(size: size, board: board)
         for coord in coordinates
         {
-            _board[coord.col][coord.row] = .ship
+            if(board == "Top")
+            {
+                _defendTopBoard[coord.col][coord.row] = .ship
+            }
+            else if(board == "Bot")
+            {
+               _board[coord.col][coord.row] = .ship
+            }
         }
     }
     
-    private func getShipCoordinates(size: Int) -> [(col: Int, row: Int)]
+    private func getShipCoordinates(size: Int, board: String) -> [(col: Int, row: Int)]
     {
-        var coordinates: [(x: Int, y: Int)] = []
-        let rand = Int(arc4random_uniform(10))
-        if(rand % 2 == 0)
+        if(board == "Top")
         {
-            var count = 0
-            for index in 1...size
+            var coordinates: [(col: Int, row: Int)] = []
+            let randRow = Int(arc4random_uniform(9))
+            let randCol = Int(arc4random_uniform(9))
+            if(randCol % 2 == 0)
             {
-                //if not index out of bounds
-                if(!(rand + index > 9))
+                for index in 0...size - 1
                 {
-                    //if next index is not already a ship
-                    if(_board[rand + index][rand] != .ship)
+                    //if not index out of bounds
+                    if(randCol + index < 10)
                     {
-                        _board[rand + index][rand] = .ship
-                        
-                        count = count + 1
-                    }
-                    else
-                    {
-                        if(_board[rand - (index - count)][rand] != .ship)
+                        //if next index is not already a ship
+                        if(_defendTopBoard[randCol + index][randRow] == .none)
                         {
-                            _board[rand - (index - count)][rand] = .ship
+                            //_board[rand + index][rand] = .ship
+                            coordinates.append((col: randCol + index, row: randRow))
                         }
+                            //already ship in way try again
                         else
                         {
+                            
+                            //no way possible restart
                             coordinates.removeAll()
-                            getShipCoordinates(size: size)
+                            coordinates = getShipCoordinates(size: size, board: board)
+                            return coordinates
+                            
                         }
-
                         
                     }
-                    
-                }
-                else
-                {
-                    if(_board[rand - (index - count)][rand] != .ship)
-                    {
-                        _board[rand - (index - count)][rand] = .ship
-                    }
+                        //was out of bounds try again
                     else
                     {
+                        //no way possible restart
                         coordinates.removeAll()
-                        getShipCoordinates(size: size)
+                        coordinates = getShipCoordinates(size: size, board: board)
+                        return coordinates
                     }
-
                 }
+                return coordinates
+            }
+            else
+            {
+                for index in 0...size - 1
+                {
+                    //if index not out of bounds
+                    if(randRow + index < 10)
+                    {
+                        //if next index is not already a ship
+                        if(_defendTopBoard[randCol][randRow + index] == .none)
+                        {
+                            //_board[rand][rand + index] = .ship
+                            coordinates.append((col: randCol, row: randRow + index))
+                        }
+                            //index was already a ship go backwards
+                        else
+                        {
+                            
+                            //no way possible restart
+                            coordinates.removeAll()
+                            coordinates = getShipCoordinates(size: size, board: board)
+                            return coordinates
+                        }
+                        
+                    }
+                        //index was out of bounds go backwards
+                    else
+                    {
+                        //no way possible restart
+                        coordinates.removeAll()
+                        coordinates = getShipCoordinates(size: size, board: board)
+                        return coordinates
+                    }
+                }
+                return coordinates
             }
         }
         else
         {
-            var count = 0
-            for index in 1...size
+            var coordinates: [(col: Int, row: Int)] = []
+            let randRow = Int(arc4random_uniform(9))
+            let randCol = Int(arc4random_uniform(9))
+            if(randCol % 2 == 0)
             {
-                //if index not out of bounds
-                if(!(rand + index > 9))
+                for index in 0...size - 1
                 {
-                    if(_board[rand][rand + index] != .ship)
+                    //if not index out of bounds
+                    if(randCol + index < 10)
                     {
-                        _board[rand][rand + index] = .ship
-                        count = count + 1
+                        //if next index is not already a ship
+                        if(_board[randCol + index][randRow] == .none)
+                        {
+                            //_board[rand + index][rand] = .ship
+                            coordinates.append((col: randCol + index, row: randRow))
+                        }
+                            //already ship in way try again
+                        else
+                        {
+                            
+                            //no way possible restart
+                            coordinates.removeAll()
+                            coordinates = getShipCoordinates(size: size, board: board)
+                            return coordinates
+                            
+                        }
+                        
                     }
+                        //was out of bounds try again
                     else
                     {
-                        _board[rand][rand  - (index - count)] = .ship
+                        //no way possible restart
+                        coordinates.removeAll()
+                        coordinates = getShipCoordinates(size: size, board: board)
+                        return coordinates
                     }
-                    
                 }
-                else
+                return coordinates
+            }
+            else
+            {
+                for index in 0...size - 1
                 {
-                    _board[rand][rand  - (index - count)] = .ship
+                    //if index not out of bounds
+                    if(randRow + index < 10)
+                    {
+                        //if next index is not already a ship
+                        if(_board[randCol][randRow + index] == .none)
+                        {
+                            //_board[rand][rand + index] = .ship
+                            coordinates.append((col: randCol, row: randRow + index))
+                        }
+                            //index was already a ship go backwards
+                        else
+                        {
+                            
+                            //no way possible restart
+                            coordinates.removeAll()
+                            coordinates = getShipCoordinates(size: size, board: board)
+                            return coordinates
+                        }
+                        
+                    }
+                        //index was out of bounds go backwards
+                    else
+                    {
+                        //no way possible restart
+                        coordinates.removeAll()
+                        coordinates = getShipCoordinates(size: size, board: board)
+                        return coordinates
+                    }
                 }
+                return coordinates
             }
         }
     }
-    
-    
 }
