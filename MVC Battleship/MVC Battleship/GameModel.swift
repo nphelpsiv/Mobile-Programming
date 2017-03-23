@@ -8,8 +8,18 @@
 
 import Foundation
 
+protocol GameModelDelegate: class {
+    func gameWinner() -> String
+    func player1NumShips() -> Int
+    func player2NumShips() -> Int
+    
+    
+}
 class Game {
     
+    
+    public var player1ShipsRemaining = 5
+    public var player2ShipsRemaining = 5
     
     var ships: [(shipID: Int, shipCoords: [(col: Int, row: Int)])] = []
     //player 1 ships
@@ -54,11 +64,19 @@ class Game {
                                      [.none, .none, .none, .none, .none, .none, .none, .none, .none, .none],
                                      [.none, .none, .none, .none, .none, .none, .none, .none, .none, .none],
                                      [.none, .none, .none, .none, .none, .none, .none, .none, .none, .none]]
+    private var _tempBoard: [[Token]] = [[.none, .none, .none, .none, .none, .none, .none, .none, .none, .none],
+                                              [.none, .none, .none, .none, .none, .none, .none, .none, .none, .none],
+                                              [.none, .none, .none, .none, .none, .none, .none, .none, .none, .none],
+                                              [.none, .none, .none, .none, .none, .none, .none, .none, .none, .none],
+                                              [.none, .none, .none, .none, .none, .none, .none, .none, .none, .none],
+                                              [.none, .none, .none, .none, .none, .none, .none, .none, .none, .none],
+                                              [.none, .none, .none, .none, .none, .none, .none, .none, .none, .none],
+                                              [.none, .none, .none, .none, .none, .none, .none, .none, .none, .none],
+                                              [.none, .none, .none, .none, .none, .none, .none, .none, .none, .none],
+                                              [.none, .none, .none, .none, .none, .none, .none, .none, .none, .none]]
     
     
-    public var currentPlayerIs1: Bool {
-        return true//movesTaken % 2 == 0
-    }
+    public var currentPlayerIs1: Bool = true
     
     
     
@@ -77,28 +95,66 @@ class Game {
         placeShip(size: 2, board: "Bot", shipID: 21);
     }
     
-    public var movesTaken: Int {
-        var count = 0
-        for boardCol: [Token] in _board {
-            for token: Token in boardCol {
-                if (token != .none) {
-                    count = count + 1
-                }
-            }
+    public var winner: String {
+        if(delegate?.gameWinner() == nil)
+        {
+            return "Unknown"
         }
-        return count
+        else
+        {
+            return (delegate?.gameWinner())!
+        }
+        
     }
-    
-    public var winner: Token {
-        // TODO: Determine winner
-        return .none
+    public var player1Ships: Int{
+        if(delegate?.player1NumShips() == nil)
+        {
+            return 5
+        }
+        else
+        {
+            return (delegate?.player1NumShips())!
+        }
+        
     }
-    
+    public var player2Ships: Int{
+        if(delegate?.player2NumShips() == nil)
+        {
+            return 5
+        }
+        else
+        {
+            return (delegate?.player2NumShips())!
+        }
+    }
+    public func decrementPlayer1Ships()
+    {
+        player1ShipsRemaining = player1ShipsRemaining - 1
+    }
+    public func decrementPlayer2Ships()
+    {
+        player2ShipsRemaining = player2ShipsRemaining - 1
+    }
     public var board: [[Token]] {
         return _board
     }
     public var defendTopBoard: [[Token]] {
         return _defendTopBoard
+    }
+    public func changePlayer()
+    {
+        currentPlayerIs1 = !currentPlayerIs1
+        if(currentPlayerIs1)
+        {
+            NSLog("Player1 turn")
+        }
+        else
+        {
+            NSLog("Player2 turn")
+        }
+        _tempBoard = _board
+        _board = _defendTopBoard
+        _defendTopBoard = _tempBoard
     }
     
     public func takeMove(col: Int, row: Int) {
@@ -108,19 +164,20 @@ class Game {
                 //_board[col][row] = currentPlayerIs1 ? .miss : .hit
                 //if current player is 1
                 _board[col][row] = .miss
+                NSLog("Player1 Click Miss")
                 
             }
             else if(_board[col][row] == .ship)
             {
                 _board[col][row] = .hit
                 
-                NSLog("Called else if statement")
+                NSLog("Player1 Click Hit")
                 outer: for ship in ships
                 {
                     //NSLog("Col: " + "\(col)" + " Row: " + "\(row)" + " ShipCol: " + "\(ship.col)" + " ShipRow: " + "\(ship.row)")
                     inner: for shipCoord in ship.shipCoords
                     {
-                        if(shipCoord.col == col && shipCoord.row == row && _board[shipCoord.col][shipCoord.row] == _board[col][row] && ship.shipID > 20)
+                        if(shipCoord.col == col && shipCoord.row == row && ship.shipID > 20)
                         {
                             
                             switch ship.shipID {
@@ -158,22 +215,21 @@ class Game {
         else
         {
             if (_board[col][row] == .none) {
-                //_board[col][row] = currentPlayerIs1 ? .miss : .hit
-                //if current player is 1
+
                 _board[col][row] = .miss
+                NSLog("Player 2 Click Miss")
                 
             }
             else if(_board[col][row] == .ship)
             {
                 _board[col][row] = .hit
                 
-                NSLog("Called else if statement")
+                NSLog("Player 2 Click Hit")
                 outer: for ship in ships
                 {
-                    //NSLog("Col: " + "\(col)" + " Row: " + "\(row)" + " ShipCol: " + "\(ship.col)" + " ShipRow: " + "\(ship.row)")
                     inner: for shipCoord in ship.shipCoords
                     {
-                        if(shipCoord.col == col && shipCoord.row == row && _board[shipCoord.col][shipCoord.row] == _board[col][row] && ship.shipID < 20)
+                        if(shipCoord.col == col && shipCoord.row == row && ship.shipID < 20)
                         {
                             
                             switch ship.shipID {
@@ -386,4 +442,6 @@ class Game {
             }
         }
     }
+    weak var delegate: GameModelDelegate? = nil
 }
+

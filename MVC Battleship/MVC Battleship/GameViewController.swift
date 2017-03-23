@@ -8,19 +8,23 @@
 
 import UIKit
 
-class GameViewController: UIViewController, GameViewDelegate {
+class GameViewController: UIViewController, GameViewDelegate, GameModelDelegate {
     private var _game: Game? = nil
+    private var _gameList: GameList? = nil
     private var touchPoint: CGPoint = CGPoint.zero
+    
     var alertController: UIAlertController? = nil
     var alertController2: UIAlertController? = nil
     var alertController3: UIAlertController? = nil
+    
     var shipWasDestroyed: Bool = false
     var gameWon: Bool = false
     
-    init?(game: Game) {
+    
+    init?(game: Game, gameList: GameList) {
         _game = game
+        _gameList = gameList
         super.init(nibName: nil, bundle: nil)
-        //game.delegates.append(self)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -36,12 +40,49 @@ class GameViewController: UIViewController, GameViewDelegate {
     override func viewDidLoad() {
         view.backgroundColor = UIColor.lightGray
         gameView.delegate  = self
+        _game?.delegate = self
+        let rightButtonItem = UIBarButtonItem.init(barButtonSystemItem: .trash ,target: self, action: #selector(deleteGame))
+        self.navigationItem.rightBarButtonItem = rightButtonItem
         refresh()
     }
     
 
     var gameView: GameView {
         return view as! GameView
+    }
+    
+    func gameWinner() -> String {
+        if(_game!.player1ShipsRemaining <= 0)
+        {
+            return "Player2"
+        }
+        else if(_game!.player2ShipsRemaining <= 0)
+        {
+            return "Player1"
+        }
+        else{
+            return "Unknown"
+        }
+        
+    }
+    func player1NumShips() -> Int {
+        return _game!.player1ShipsRemaining
+    }
+    func player2NumShips() -> Int {
+        return _game!.player2ShipsRemaining
+    }
+    func deleteGame()
+    {
+        _gameList?.removeGameAtIndex(game: (_game?.ships.description)!)
+        _ = navigationController?.popToRootViewController(animated: true)
+        
+    }
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        if(_gameList == nil)
+        {
+            return
+        }
     }
     
     func refresh() {
@@ -81,15 +122,14 @@ class GameViewController: UIViewController, GameViewDelegate {
     }
     func toast(toast: String)
     {
-        if(toast == "Miss!")
-        {
+
             if(shipWasDestroyed == false && gameWon == false)
             {
                 alertController = UIAlertController(title: toast, message: nil, preferredStyle: .alert)
                 self.present(alertController!, animated: true, completion: nil)
                 _ = Timer.scheduledTimer(timeInterval: 0.06, target: self, selector: #selector(dismissMessage), userInfo: nil, repeats: false)
             }
-        }
+
 
     }
     
@@ -128,88 +168,114 @@ class GameViewController: UIViewController, GameViewDelegate {
     
     
     func rectWithTouchedPointAt(col: Int, row: Int) {
-        //NSLog("Called delegate rect with touchpoint")
         _game?.takeMove(col: row, row: col)
-        //gameView.setNeedsDisplay()
         refresh()
         if(_game?.currentPlayerIs1)!
         {
-            if((_game?.ship5Health2)! <= 0 && (_game?.ship4Health2)! <= 0 && (_game?.ship3Health2)! <= 0 && (_game?.ship2Health2)! <= 0 && (_game?.ship1Health2)! <= 0)
-            {
-                gameWon = true
-                toast3(toast: "Player 1 won!")
-            }
             if((_game?.ship5Health2)! == 0)
             {
                 shipWasDestroyed = true
+                _game?.decrementPlayer1Ships()
                 _game?.ship5Health2 = (_game?.ship5Health2)! - 1
                 toast2(toast: "Ship Destroyed!")
             }
             else if((_game?.ship4Health2)! == 0)
             {
                 shipWasDestroyed = true
+                _game?.decrementPlayer1Ships()
                 _game?.ship4Health2 = (_game?.ship4Health2)! - 1
                 toast2(toast: "Ship Destroyed!")
             }
             else if((_game?.ship3Health2)! == 0)
             {
                 shipWasDestroyed = true
+                _game?.decrementPlayer1Ships()
                 _game?.ship3Health2 = (_game?.ship3Health2)! - 1
                 toast2(toast: "Ship Destroyed!")
             }
             else if((_game?.ship2Health2)! == 0)
             {
                 shipWasDestroyed = true
+                _game?.decrementPlayer1Ships()
                 _game?.ship2Health2 = (_game?.ship2Health2)! - 1
                 toast2(toast: "Ship Destroyed!")
             }
-            else if((_game?.ship1Health)! == 0)
+            else if((_game?.ship1Health2)! == 0)
             {
                 shipWasDestroyed = true
+                _game?.decrementPlayer1Ships()
                 _game?.ship1Health2 = (_game?.ship1Health2)! - 1
                 toast2(toast: "Ship Destroyed!")
+            }
+            if((_game?.player1ShipsRemaining)! <= 0 || (_game?.player2ShipsRemaining)! <= 0)
+            {
+                gameWon = true
+                toast3(toast: "Player 2 won!")
+                DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1.0) {
+                    self.navigationController?.popToRootViewController(animated: true)
+                }
             }
         }
         else
         {
-            if((_game?.ship5Health)! <= 0 && (_game?.ship4Health)! <= 0 && (_game?.ship3Health)! <= 0 && (_game?.ship2Health)! <= 0 && (_game?.ship1Health)! <= 0)
-            {
-                gameWon = true
-                toast3(toast: "Player 2 won!")
-            }
             if((_game?.ship5Health)! == 0)
             {
                 shipWasDestroyed = true
+                _game?.decrementPlayer2Ships()
                 _game?.ship5Health = (_game?.ship5Health)! - 1
                 toast2(toast: "Ship Destroyed!")
             }
             else if((_game?.ship4Health)! == 0)
             {
                 shipWasDestroyed = true
+                _game?.decrementPlayer2Ships()
                 _game?.ship4Health = (_game?.ship4Health)! - 1
                 toast2(toast: "Ship Destroyed!")
             }
             else if((_game?.ship3Health)! == 0)
             {
                 shipWasDestroyed = true
+                _game?.decrementPlayer2Ships()
                 _game?.ship3Health = (_game?.ship3Health)! - 1
                 toast2(toast: "Ship Destroyed!")
             }
             else if((_game?.ship2Health)! == 0)
             {
                 shipWasDestroyed = true
+                _game?.decrementPlayer2Ships()
                 _game?.ship2Health = (_game?.ship2Health)! - 1
                 toast2(toast: "Ship Destroyed!")
             }
             else if((_game?.ship1Health)! == 0)
             {
                 shipWasDestroyed = true
+                _game?.decrementPlayer2Ships()
                 _game?.ship1Health = (_game?.ship1Health)! - 1
                 toast2(toast: "Ship Destroyed!")
             }
+            if((_game?.player1ShipsRemaining)! <= 0 || (_game?.player2ShipsRemaining)! <= 0)
+            {
+                gameWon = true
+                toast3(toast: "Player 1 won!")
+                DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1.0) {
+                    self.navigationController?.popToRootViewController(animated: true)
+                }
+                
+            }
         }
-        
-        
-        
+        if(gameWon == false)
+        {
+            let playerChangeViewController: PlayerChangeViewController = PlayerChangeViewController()
+            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1.0) {
+                self.navigationController?.pushViewController(playerChangeViewController, animated: true)
+                self._game?.changePlayer();
+                self.refresh()
+                
+            }
+        }
+        else
+        {
+            refresh()
+        }
     }
 }

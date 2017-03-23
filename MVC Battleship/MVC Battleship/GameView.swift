@@ -92,9 +92,7 @@ class GameView: UIView {
             
             
             
-            //checks after clicking
-            //NSLog("LocalTokenCol: " + "\(tokenCol)" + " LocalTokenRow: " + "\(tokenRow)" + " GlobalTokenCol: " + "\(touchedColGlobal)" + " GlobalTokenRow: " + "\(touchedRowGlobal)")
-            //NSLog("TOKEN: " + "\(token)")
+
             if(touched == true && token == "\u{2705}" && tokenCol == touchedColGlobal && tokenRow == touchedRowGlobal)
             {
                 delegate?.toast(toast: "Hit!")
@@ -108,9 +106,6 @@ class GameView: UIView {
             
         }
         
-//        case .hit : viewTokens.append("\u{2705}")
-//        case .miss : viewTokens.append("\u{274C}")
-//        case .ship  : viewTokens.append("\u{1F6A2}")
         
         
         
@@ -196,7 +191,6 @@ class GameView: UIView {
                                    "none", "none", "none", "none", "none", "none", "none", "none", "none", "none"
                                    ]{
         didSet {
-            //NSLog("Did set tokens")
             setNeedsDisplay()
         }
     }
@@ -212,7 +206,6 @@ class GameView: UIView {
                                    "none", "none", "none", "none", "none", "none", "none", "none", "none", "none"
         ]{
         didSet {
-            //NSLog("Did set tokensDefend")
             setNeedsDisplay()
         }
     }
@@ -230,7 +223,6 @@ class GameView: UIView {
                 touchedColGlobal = tokenCol
                 touchedRowGlobal = tokenRow
                 delegate?.rectWithTouchedPointAt(col: tokenCol, row: tokenRow)
-                //NSLog("In View: " + " Col: " + "\(tokenCol)" + " Row: " + "\(tokenRow)")
             }
             i = i + 1;
         }

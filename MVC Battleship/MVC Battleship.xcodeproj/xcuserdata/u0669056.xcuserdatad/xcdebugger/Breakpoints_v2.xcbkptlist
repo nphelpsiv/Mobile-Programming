@@ -10,11 +10,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MVC Battleship/GameModel.swift"
-            timestampString = "511921424.837994"
+            timestampString = "511938075.956723"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "232"
-            endingLineNumber = "232"
+            startingLineNumber = "288"
+            endingLineNumber = "288"
             landmarkName = "getShipCoordinates(size:board:shipID:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -26,11 +26,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MVC Battleship/GameViewController.swift"
-            timestampString = "511917592.866926"
+            timestampString = "511938036.368033"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "94"
-            endingLineNumber = "94"
+            startingLineNumber = "126"
+            endingLineNumber = "126"
             landmarkName = "toast(toast:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -58,12 +58,44 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MVC Battleship/GameViewController.swift"
-            timestampString = "511917592.866926"
+            timestampString = "511938036.368033"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "50"
-            endingLineNumber = "50"
-            landmarkName = "refresh()"
+            startingLineNumber = "76"
+            endingLineNumber = "76"
+            landmarkName = "deleteGame()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "MVC Battleship/GameModel.swift"
+            timestampString = "511932037.549751"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "99"
+            endingLineNumber = "99"
+            landmarkName = "Game"
+            landmarkType = "3">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "MVC Battleship/GameModel.swift"
+            timestampString = "511938075.956723"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "133"
+            endingLineNumber = "133"
+            landmarkName = "decrementPlayer1Ships()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

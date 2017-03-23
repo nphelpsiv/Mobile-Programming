@@ -30,4 +30,17 @@ class GameList
     {
         games.append(game)
     }
+    func removeGameAtIndex(game: String)
+    {
+        for gameIndex: Int in 0..<games.count
+        {
+            //for tokenIndex: Int in 0 ..< min(100, tokens.count)
+            if(game == games[gameIndex].ships.description)
+            {
+                games.remove(at: gameIndex)
+                break;
+            }
+        }
+        
+    }
 }
