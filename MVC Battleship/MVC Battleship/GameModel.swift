@@ -12,11 +12,19 @@ class Game {
     
     
     var ships: [(shipID: Int, shipCoords: [(col: Int, row: Int)])] = []
+    //player 1 ships
     public var ship5Health = 5
     public var ship4Health = 4
     public var ship3Health = 3
     public var ship2Health = 3
     public var ship1Health = 2
+    
+    //player2 ships
+    public var ship5Health2 = 5
+    public var ship4Health2 = 4
+    public var ship3Health2 = 3
+    public var ship2Health2 = 3
+    public var ship1Health2 = 2
     
     public enum Token {
         case none
@@ -49,24 +57,24 @@ class Game {
     
     
     public var currentPlayerIs1: Bool {
-        return movesTaken % 2 == 0
+        return true//movesTaken % 2 == 0
     }
     
     
     
     init()
     {
-        placeShip(size: 5, board: "Top", shipID: 5);
-        placeShip(size: 4, board: "Top", shipID: 4);
-        placeShip(size: 3, board: "Top", shipID: 3);
-        placeShip(size: 3, board: "Top", shipID: 2);
-        placeShip(size: 2, board: "Top", shipID: 1);
+        placeShip(size: 5, board: "Top", shipID: 15);
+        placeShip(size: 4, board: "Top", shipID: 14);
+        placeShip(size: 3, board: "Top", shipID: 13);
+        placeShip(size: 3, board: "Top", shipID: 12);
+        placeShip(size: 2, board: "Top", shipID: 11);
         
-        placeShip(size: 5, board: "Bot", shipID: 5);
-        placeShip(size: 4, board: "Bot", shipID: 4);
-        placeShip(size: 3, board: "Bot", shipID: 3);
-        placeShip(size: 3, board: "Bot", shipID: 2);
-        placeShip(size: 2, board: "Bot", shipID: 1);
+        placeShip(size: 5, board: "Bot", shipID: 25);
+        placeShip(size: 4, board: "Bot", shipID: 24);
+        placeShip(size: 3, board: "Bot", shipID: 23);
+        placeShip(size: 3, board: "Bot", shipID: 22);
+        placeShip(size: 2, board: "Bot", shipID: 21);
     }
     
     public var movesTaken: Int {
@@ -94,38 +102,106 @@ class Game {
     }
     
     public func takeMove(col: Int, row: Int) {
-        if (_board[col][row] == .none) {
-            //_board[col][row] = currentPlayerIs1 ? .miss : .hit
-            //if current player is 1
-            _board[col][row] = .miss
-            
-        }
-        else if(_board[col][row] == .ship)
+        if(currentPlayerIs1)
         {
-            _board[col][row] = .hit
-            
-            
-            for ship in ships
+            if (_board[col][row] == .none) {
+                //_board[col][row] = currentPlayerIs1 ? .miss : .hit
+                //if current player is 1
+                _board[col][row] = .miss
+                
+            }
+            else if(_board[col][row] == .ship)
             {
-                //NSLog("Col: " + "\(col)" + " Row: " + "\(row)" + " ShipCol: " + "\(ship.col)" + " ShipRow: " + "\(ship.row)")
-                for shipCoord in ship.shipCoords
+                _board[col][row] = .hit
+                
+                NSLog("Called else if statement")
+                outer: for ship in ships
                 {
-                    if(shipCoord.col == col && shipCoord.row == row)
+                    //NSLog("Col: " + "\(col)" + " Row: " + "\(row)" + " ShipCol: " + "\(ship.col)" + " ShipRow: " + "\(ship.row)")
+                    inner: for shipCoord in ship.shipCoords
                     {
-                        NSLog("Set to decrement a ships health")
-                        switch ship.shipID {
-                        case 5:
-                            ship5Health = ship5Health - 1
-                        case 4:
-                            ship4Health = ship4Health - 1
-                        case 3:
-                            ship3Health = ship3Health - 1
-                        case 2:
-                            ship2Health = ship2Health - 1
-                        case 1:
-                            ship1Health = ship1Health - 1
-                        default:
-                            NSLog("Error in decrement ship health")
+                        if(shipCoord.col == col && shipCoord.row == row && _board[shipCoord.col][shipCoord.row] == _board[col][row] && ship.shipID > 20)
+                        {
+                            
+                            switch ship.shipID {
+                            case 25:
+                                ship5Health2 = ship5Health2 - 1
+                                NSLog("Set to decrement a ships health 25" + " " + "\(ship.shipID)")
+                                break inner
+                            case 24:
+                                ship4Health2 = ship4Health2 - 1
+                                NSLog("Set to decrement a ships health 24" + " " + "\(ship.shipID)")
+                                break inner
+                            case 23:
+                                ship3Health2 = ship3Health2 - 1
+                                NSLog("Set to decrement a ships health 23" + " " + "\(ship.shipID)")
+                                break inner
+                            case 22:
+                                ship2Health2 = ship2Health2 - 1
+                                NSLog("Set to decrement a ships health 22" + " " + "\(ship.shipID)")
+                                break inner
+                            case 21:
+                                ship1Health2 = ship1Health2 - 1
+                                NSLog("Set to decrement a ships health 21" + " " + "\(ship.shipID)")
+                                break inner
+                            default:
+                                NSLog("Error in decrement ship health")
+                                break;
+                            }
+                            break outer
+                        }
+                    }
+                }
+            }
+        }
+        //player is 2
+        else
+        {
+            if (_board[col][row] == .none) {
+                //_board[col][row] = currentPlayerIs1 ? .miss : .hit
+                //if current player is 1
+                _board[col][row] = .miss
+                
+            }
+            else if(_board[col][row] == .ship)
+            {
+                _board[col][row] = .hit
+                
+                NSLog("Called else if statement")
+                outer: for ship in ships
+                {
+                    //NSLog("Col: " + "\(col)" + " Row: " + "\(row)" + " ShipCol: " + "\(ship.col)" + " ShipRow: " + "\(ship.row)")
+                    inner: for shipCoord in ship.shipCoords
+                    {
+                        if(shipCoord.col == col && shipCoord.row == row && _board[shipCoord.col][shipCoord.row] == _board[col][row] && ship.shipID < 20)
+                        {
+                            
+                            switch ship.shipID {
+                            case 15:
+                                ship5Health = ship5Health - 1
+                                NSLog("Set to decrement a ships health 5" + " " + "\(ship.shipID)")
+                                break inner
+                            case 14:
+                                ship4Health = ship4Health - 1
+                                NSLog("Set to decrement a ships health 4" + " " + "\(ship.shipID)")
+                                break inner
+                            case 13:
+                                ship3Health = ship3Health - 1
+                                NSLog("Set to decrement a ships health 3" + " " + "\(ship.shipID)")
+                                break inner
+                            case 12:
+                                ship2Health = ship2Health - 1
+                                NSLog("Set to decrement a ships health 2" + " " + "\(ship.shipID)")
+                                break inner
+                            case 11:
+                                ship1Health = ship1Health - 1
+                                NSLog("Set to decrement a ships health 1" + " " + "\(ship.shipID)")
+                                break inner
+                            default:
+                                NSLog("Error in decrement ship health")
+                                break;
+                            }
+                            break outer
                         }
                     }
                 }

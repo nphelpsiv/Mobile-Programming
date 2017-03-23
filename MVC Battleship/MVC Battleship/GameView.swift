@@ -120,12 +120,12 @@ class GameView: UIView {
         
         //draw defend top board with ships and what enemy has done
         var gridRectDefend: CGRect = CGRect.zero
-        let dimensionDefend: CGFloat = min(bounds.width/1.5, bounds.height/1.5)
+        let dimensionDefend: CGFloat = min(bounds.width/1.8, bounds.height/1.8)
         gridRectDefend.size.width = dimensionDefend
         gridRectDefend.size.height = dimensionDefend
         if (bounds.width < bounds.height) { // portrait
-            gridRectDefend.origin.x = 50
-            gridRectDefend.origin.y = bounds.height * 0.08 - gridRectDefend.size.height * 0.08
+            gridRectDefend.origin.x = 60
+            gridRectDefend.origin.y = bounds.height * 0.21 - gridRectDefend.size.height * 0.21
         }
         else {
             gridRectDefend.origin.x = bounds.width * 0.7 - gridRectDefend.size.width * 0.7
